@@ -1,0 +1,108 @@
+[gd_scene load_steps=13 format=3 uid="uid://b8x4l0svm5d8u"]
+
+[ext_resource type="Texture2D" uid="uid://2buhwsevif7m" path="res://Sprites/hollow_knight_health_empty.png" id="1_bm56d"]
+[ext_resource type="Script" uid="uid://dntdxofkgnc64" path="res://Scripts/Gui.cs" id="1_m6o0h"]
+[ext_resource type="Texture2D" uid="uid://cpmjm84ua2t62" path="res://Sprites/hollow_knight_health_progress.png" id="2_n5m23"]
+[ext_resource type="Texture2D" uid="uid://iiglmpkxw6q2" path="res://Sprites/hollow_knight_ui_icons.png" id="3_m6o0h"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m6o0h"]
+atlas = ExtResource("1_bm56d")
+region = Rect2(0, 0, 122, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8kag3"]
+atlas = ExtResource("2_n5m23")
+region = Rect2(0, 0, 96, 0)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3w84o"]
+atlas = ExtResource("3_m6o0h")
+region = Rect2(1, 1, 38, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xnb2j"]
+atlas = ExtResource("3_m6o0h")
+region = Rect2(52, 1, 11, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bf1fa"]
+atlas = ExtResource("3_m6o0h")
+region = Rect2(40, 1, 11, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n5m23"]
+atlas = ExtResource("3_m6o0h")
+region = Rect2(19, 17, 17, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_q52sk"]
+atlas = ExtResource("3_m6o0h")
+region = Rect2(1, 35, 17, 17)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gnd4w"]
+atlas = ExtResource("3_m6o0h")
+region = Rect2(1, 17, 17, 17)
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_m6o0h")
+metadata/_edit_lock_ = true
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 135.0
+offset_bottom = 24.0
+scale = Vector2(3, 3)
+max_value = 9.0
+value = 9.0
+texture_under = SubResource("AtlasTexture_m6o0h")
+texture_progress = SubResource("AtlasTexture_8kag3")
+texture_progress_offset = Vector2(26, 0)
+
+[node name="Frame" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 3.0
+offset_right = 120.0
+offset_bottom = 48.0
+texture = SubResource("AtlasTexture_3w84o")
+metadata/_edit_lock_ = true
+
+[node name="EmptyMasks" type="NinePatchRect" parent="."]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 12.0
+offset_right = 177.0
+offset_bottom = 22.0
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_xnb2j")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_lock_ = true
+
+[node name="FullMasks" type="NinePatchRect" parent="."]
+layout_mode = 0
+offset_left = 78.0
+offset_top = 12.0
+offset_right = 177.0
+offset_bottom = 22.0
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_bf1fa")
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+metadata/_edit_lock_ = true
+
+[node name="SoulMeter" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 18.0
+offset_right = 29.0
+offset_bottom = 35.0
+scale = Vector2(3, 3)
+max_value = 17.0
+value = 7.0
+fill_mode = 3
+texture_under = SubResource("AtlasTexture_n5m23")
+texture_over = SubResource("AtlasTexture_q52sk")
+texture_progress = SubResource("AtlasTexture_gnd4w")
+metadata/_edit_lock_ = true

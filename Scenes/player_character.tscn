@@ -1,0 +1,624 @@
+[gd_scene load_steps=29 format=3 uid="uid://1fcut7yuncwa"]
+
+[ext_resource type="Script" uid="uid://dwaethebq4d52" path="res://Scripts/PlayerCharacter.cs" id="1_qcwfp"]
+[ext_resource type="Script" uid="uid://0rhmteroqoos" path="res://Scripts/NailHandeler.cs" id="2_cmdk4"]
+[ext_resource type="AnimationNodeStateMachine" uid="uid://sp8phh7gn8os" path="res://animation_state machine.tres" id="2_wko77"]
+[ext_resource type="Texture2D" uid="uid://dvntshk1aybqh" path="res://Sprites/the_knight_Spritesheet_4.png" id="3_ons1q"]
+[ext_resource type="Texture2D" uid="uid://db0n8moobb13a" path="res://Sprites/horisontal_swing.png" id="5_pb3n0"]
+[ext_resource type="PackedScene" uid="uid://b8x4l0svm5d8u" path="res://Scenes/gui.tscn" id="7_ajo0r"]
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ons1q"]
+animation = &"pushback"
+
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_ons1q"]
+mix_mode = 1
+
+[sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_flf3p"]
+graph_offset = Vector2(-703.493, 62.6556)
+nodes/Animation/node = SubResource("AnimationNodeAnimation_ons1q")
+nodes/Animation/position = Vector2(-340, 340)
+nodes/AnimationNodeStateMachine/node = ExtResource("2_wko77")
+nodes/AnimationNodeStateMachine/position = Vector2(-380, 100)
+nodes/OneShot/node = SubResource("AnimationNodeOneShot_ons1q")
+nodes/OneShot/position = Vector2(20, 120)
+nodes/output/position = Vector2(300, 100)
+node_connections = [&"OneShot", 0, &"AnimationNodeStateMachine", &"OneShot", 1, &"Animation", &"output", 0, &"OneShot"]
+
+[sub_resource type="Animation" id="Animation_4pbxa"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("nail_area/up_nail:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("up_nail_sprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("nail_area/down_nail:disabled")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("down_nail_sprite:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("nail_area/forward_nail:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Sprite2D:frame_coords")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("side_nail_sprite:frame_coords")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = false
+tracks/7/path = NodePath("..:AltAttackAnim")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../AnimationTree:parameters/AnimationNodeStateMachine/conditions/Attacking")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("..:pushVelocity1")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_ews8v"]
+resource_name = "down_nail_swing"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("nail_area/down_nail:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("down_nail_sprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.01, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="Animation" id="Animation_i0ilm"]
+resource_name = "end_attack"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../AnimationTree:parameters/AnimationNodeStateMachine/conditions/Attacking")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_q5hbr"]
+resource_name = "fall_continuous"
+length = 0.2
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(5, 5), Vector2i(6, 5), Vector2i(7, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_fcng2"]
+resource_name = "fall_start"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.133333, 0.233333, 0.333333, 0.433333, 0.533333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(2, 5), Vector2i(3, 5), Vector2i(4, 5), Vector2i(5, 5), Vector2i(6, 5), Vector2i(7, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_ons1q"]
+resource_name = "foreward_nail_swing"
+length = 0.4
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("nail_area/forward_nail:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Sprite2D:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.1, 0.133333, 0.2, 0.266667, 0.333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(0, 4), Vector2i(1, 4), Vector2i(2, 4), Vector2i(3, 4), Vector2i(4, 4), Vector2i(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("side_nail_sprite:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0), Vector2i(0, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:AltAttackAnim")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="Animation" id="Animation_flf3p"]
+resource_name = "foreward_nail_swing_2"
+length = 0.4
+step = 0.0333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("nail_area/forward_nail:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Sprite2D:frame_coords")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.1, 0.133333, 0.2, 0.266667, 0.333333),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(5, 4), Vector2i(6, 4), Vector2i(7, 4), Vector2i(8, 4), Vector2i(9, 4), Vector2i(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("side_nail_sprite:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.166667, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(3, 0), Vector2i(4, 0), Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_o0f8b"]
+resource_name = "idle"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_12ptb"]
+resource_name = "jump"
+length = 0.3
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5)]
+}
+
+[sub_resource type="Animation" id="Animation_6m2el"]
+resource_name = "pushback"
+length = 0.15
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:directionalPushVelocity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-100, 0), Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_a1rxb"]
+resource_name = "run_continuous"
+length = 0.3
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = false
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(5, 1), Vector2i(6, 1), Vector2i(7, 1), Vector2i(8, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_nw3ir"]
+resource_name = "run_start"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1), Vector2i(3, 1), Vector2i(4, 1), Vector2i(5, 1), Vector2i(6, 1), Vector2i(7, 1), Vector2i(8, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_pb3n0"]
+resource_name = "run_stop"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 2), Vector2i(1, 2), Vector2i(2, 2), Vector2i(3, 2)]
+}
+
+[sub_resource type="Animation" id="Animation_ajo0r"]
+resource_name = "turn"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2i(0, 3), Vector2i(1, 3)]
+}
+tracks/1/type = "method"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"Turn"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_euix3"]
+resource_name = "turn_air"
+length = 0.01
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"Turn"
+}]
+}
+
+[sub_resource type="Animation" id="Animation_w775p"]
+resource_name = "up_nail_swing"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("nail_area/up_nail:disabled")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.01, 0.233333),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [true, false, true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("up_nail_sprite:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.01, 0.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_12ptb"]
+_data = {
+&"RESET": SubResource("Animation_4pbxa"),
+&"down_nail_swing": SubResource("Animation_ews8v"),
+&"end_attack": SubResource("Animation_i0ilm"),
+&"fall_continuous": SubResource("Animation_q5hbr"),
+&"fall_start": SubResource("Animation_fcng2"),
+&"foreward_nail_swing": SubResource("Animation_ons1q"),
+&"foreward_nail_swing_2": SubResource("Animation_flf3p"),
+&"idle": SubResource("Animation_o0f8b"),
+&"jump": SubResource("Animation_12ptb"),
+&"pushback": SubResource("Animation_6m2el"),
+&"run_continuous": SubResource("Animation_a1rxb"),
+&"run_start": SubResource("Animation_nw3ir"),
+&"run_stop": SubResource("Animation_pb3n0"),
+&"turn": SubResource("Animation_ajo0r"),
+&"turn_air": SubResource("Animation_euix3"),
+&"up_nail_swing": SubResource("Animation_w775p")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_oigcr"]
+size = Vector2(34, 80)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fcng2"]
+size = Vector2(4, 4)
+
+[node name="player_character" type="CharacterBody2D"]
+collision_layer = 0
+platform_on_leave = 2
+script = ExtResource("1_qcwfp")
+jumpStrength = 750
+maxHealth = 9
+currentHealth = 9
+currentSoul = 10
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+root_node = NodePath("../nail_handeler")
+tree_root = SubResource("AnimationNodeBlendTree_flf3p")
+advance_expression_base_node = NodePath("..")
+anim_player = NodePath("../character_animation_player")
+parameters/AnimationNodeStateMachine/conditions/Attacking = false
+parameters/OneShot/active = false
+parameters/OneShot/internal_active = false
+parameters/OneShot/request = 0
+
+[node name="character_animation_player" type="AnimationPlayer" parent="."]
+root_node = NodePath("../nail_handeler")
+libraries = {
+&"": SubResource("AnimationLibrary_12ptb")
+}
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-15, -52.5)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("3_ons1q")
+hframes = 10
+vframes = 6
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(0, -40)
+limit_bottom = 650
+limit_smoothed = true
+position_smoothing_enabled = true
+position_smoothing_speed = 8.0
+
+[node name="PlayerCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_oigcr")
+
+[node name="PlayerHitbox" type="Area2D" parent="."]
+collision_layer = 0
+collision_mask = 4
+
+[node name="PlayerCollision" type="CollisionShape2D" parent="PlayerHitbox"]
+position = Vector2(0, -40)
+shape = SubResource("RectangleShape2D_oigcr")
+
+[node name="nail_handeler" type="Node2D" parent="."]
+position = Vector2(1, -40)
+script = ExtResource("2_cmdk4")
+
+[node name="side_nail_sprite" type="Sprite2D" parent="nail_handeler"]
+position = Vector2(35, -20)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("5_pb3n0")
+hframes = 5
+
+[node name="side_nail_sprite2" type="Sprite2D" parent="nail_handeler"]
+visible = false
+position = Vector2(35, -20)
+scale = Vector2(3.5, 3.5)
+texture = ExtResource("5_pb3n0")
+hframes = 5
+frame = 1
+
+[node name="down_nail_sprite" type="Sprite2D" parent="nail_handeler"]
+visible = false
+position = Vector2(-16.5, 89)
+scale = Vector2(40.75, 42)
+texture = SubResource("PlaceholderTexture2D_fcng2")
+
+[node name="up_nail_sprite" type="Sprite2D" parent="nail_handeler"]
+visible = false
+position = Vector2(-18, -109)
+scale = Vector2(42, 42)
+texture = SubResource("PlaceholderTexture2D_fcng2")
+
+[node name="nail_area" type="Area2D" parent="nail_handeler"]
+scale = Vector2(2, 2)
+collision_layer = 0
+collision_mask = 7
+
+[node name="forward_nail" type="CollisionPolygon2D" parent="nail_handeler/nail_area"]
+position = Vector2(24, -16)
+polygon = PackedVector2Array(-14, 36, -17, -32, 15, -28, 50, -14, 58, 11, 43, 30)
+disabled = true
+
+[node name="down_nail" type="CollisionPolygon2D" parent="nail_handeler/nail_area"]
+position = Vector2(4, -1)
+polygon = PackedVector2Array(-57, 2, 33, 1, 24, 55, 2, 90, -34, 89, -53, 60)
+disabled = true
+
+[node name="up_nail" type="CollisionPolygon2D" parent="nail_handeler/nail_area"]
+position = Vector2(4, -9)
+polygon = PackedVector2Array(-57, -2, 33, -1, 24, -55, 2, -90, -34, -89, -53, -60)
+disabled = true
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="gui" parent="CanvasLayer" instance=ExtResource("7_ajo0r")]
+offset_top = 1.0
+offset_bottom = 1.0

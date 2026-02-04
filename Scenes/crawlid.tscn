@@ -1,0 +1,50 @@
+[gd_scene load_steps=5 format=3 uid="uid://c2c04105shnu4"]
+
+[ext_resource type="Script" uid="uid://be81xaawyok7i" path="res://Scripts/Crawlid.cs" id="1_05evc"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_affw8"]
+size = Vector2(50, 30)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_05evc"]
+size = Vector2(6, 8)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jhokj"]
+size = Vector2(50.0917, 30)
+
+[node name="crawlid" type="CharacterBody2D"]
+scale = Vector2(0.99817, 1)
+collision_layer = 2
+floor_snap_length = 3.0
+script = ExtResource("1_05evc")
+maxHealth = 8
+CurrentHealth = 8
+
+[node name="EnemyHurtbox" type="CollisionShape2D" parent="." groups=["damageable", "pogoable", "recoiling", "soulfull"]]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_affw8")
+
+[node name="EnemySprite" type="Sprite2D" parent="."]
+position = Vector2(0.125, -15)
+scale = Vector2(8.29167, 3.75)
+texture = SubResource("PlaceholderTexture2D_05evc")
+
+[node name="GroundDetectorRaycast2D" type="RayCast2D" parent="."]
+position = Vector2(33, 0)
+target_position = Vector2(0, 3)
+collision_mask = 3
+hit_from_inside = true
+
+[node name="WallDetectorRaycast2D" type="RayCast2D" parent="."]
+position = Vector2(33, -29)
+target_position = Vector2(0, 28)
+collision_mask = 3
+hit_from_inside = true
+
+[node name="HitArea" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="HitBox" type="CollisionShape2D" parent="HitArea" groups=["damageing"]]
+position = Vector2(0, -15)
+shape = SubResource("RectangleShape2D_jhokj")
+metadata/damage = 1
