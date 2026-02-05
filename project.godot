@@ -36,6 +36,7 @@ soulfull="whether this shape can give soul"
 damageable="whether this shape can be damaged"
 recoiling="whether this shape inflicts recoil on atacker when hit"
 damageing="if this shape deals damage to the knight (deals metadata int \"damage\" default of 1)"
+knockback_applying="wheather this area applies knockback"
 
 [input]
 
@@ -118,7 +119,7 @@ jump={
 
 [physics]
 
-2d/default_gravity_vector=Vector2(0, 1.5)
+2d/default_gravity_vector=Vector2(0, 2)
 
 [rendering]
 

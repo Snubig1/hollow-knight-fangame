@@ -1,4 +1,4 @@
-[gd_scene load_steps=29 format=3 uid="uid://1fcut7yuncwa"]
+[gd_scene load_steps=32 format=3 uid="uid://1fcut7yuncwa"]
 
 [ext_resource type="Script" uid="uid://dwaethebq4d52" path="res://Scripts/PlayerCharacter.cs" id="1_qcwfp"]
 [ext_resource type="Script" uid="uid://0rhmteroqoos" path="res://Scripts/NailHandeler.cs" id="2_cmdk4"]
@@ -7,22 +7,33 @@
 [ext_resource type="Texture2D" uid="uid://db0n8moobb13a" path="res://Sprites/horisontal_swing.png" id="5_pb3n0"]
 [ext_resource type="PackedScene" uid="uid://b8x4l0svm5d8u" path="res://Scenes/gui.tscn" id="7_ajo0r"]
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ajo0r"]
+animation = &"knockback"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ons1q"]
 animation = &"pushback"
 
+[sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_flf3p"]
+mix_mode = 1
+
 [sub_resource type="AnimationNodeOneShot" id="AnimationNodeOneShot_ons1q"]
+filters = ["..:directionalPushVelocity"]
 mix_mode = 1
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_flf3p"]
-graph_offset = Vector2(-703.493, 62.6556)
+graph_offset = Vector2(-535.13, 11.8597)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_ons1q")
-nodes/Animation/position = Vector2(-340, 340)
+nodes/Animation/position = Vector2(-200, 180)
+"nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_ajo0r")
+"nodes/Animation 2/position" = Vector2(80, 180)
 nodes/AnimationNodeStateMachine/node = ExtResource("2_wko77")
-nodes/AnimationNodeStateMachine/position = Vector2(-380, 100)
-nodes/OneShot/node = SubResource("AnimationNodeOneShot_ons1q")
-nodes/OneShot/position = Vector2(20, 120)
-nodes/output/position = Vector2(300, 100)
-node_connections = [&"OneShot", 0, &"AnimationNodeStateMachine", &"OneShot", 1, &"Animation", &"output", 0, &"OneShot"]
+nodes/AnimationNodeStateMachine/position = Vector2(-440, 60)
+nodes/knockback/node = SubResource("AnimationNodeOneShot_flf3p")
+nodes/knockback/position = Vector2(220, 60)
+nodes/output/position = Vector2(380, 60)
+nodes/pushback/node = SubResource("AnimationNodeOneShot_ons1q")
+nodes/pushback/position = Vector2(-60, 60)
+node_connections = [&"knockback", 0, &"pushback", &"knockback", 1, &"Animation 2", &"output", 0, &"knockback", &"pushback", 0, &"AnimationNodeStateMachine", &"pushback", 1, &"Animation"]
 
 [sub_resource type="Animation" id="Animation_4pbxa"]
 length = 0.001
@@ -113,7 +124,7 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = false
-tracks/7/path = NodePath("..:AltAttackAnim")
+tracks/7/path = NodePath("..:altAttackAnim")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
@@ -137,7 +148,7 @@ tracks/8/keys = {
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("..:pushVelocity1")
+tracks/9/path = NodePath("..:directionalPushVelocity")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
@@ -145,6 +156,18 @@ tracks/9/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Vector2(0, 0)]
+}
+tracks/10/type = "value"
+tracks/10/imported = false
+tracks/10/enabled = true
+tracks/10/path = NodePath("..:disableHorisontalControlls")
+tracks/10/interp = 1
+tracks/10/loop_wrap = true
+tracks/10/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_ews8v"]
@@ -362,8 +385,20 @@ tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.15),
 "transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(-100, 0), Vector2(0, 0)]
+"update": 1,
+"values": [Vector2(-150, 0), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:disableHorisontalControlls")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.15),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_a1rxb"]
@@ -490,6 +525,34 @@ tracks/1/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_xeb05"]
+resource_name = "knockback"
+length = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..:directionalPushVelocity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(-300, -8), Vector2(0, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:disableHorisontalControlls")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_12ptb"]
 _data = {
 &"RESET": SubResource("Animation_4pbxa"),
@@ -501,6 +564,7 @@ _data = {
 &"foreward_nail_swing_2": SubResource("Animation_flf3p"),
 &"idle": SubResource("Animation_o0f8b"),
 &"jump": SubResource("Animation_12ptb"),
+&"knockback": SubResource("Animation_xeb05"),
 &"pushback": SubResource("Animation_6m2el"),
 &"run_continuous": SubResource("Animation_a1rxb"),
 &"run_start": SubResource("Animation_nw3ir"),
@@ -520,7 +584,7 @@ size = Vector2(4, 4)
 collision_layer = 0
 platform_on_leave = 2
 script = ExtResource("1_qcwfp")
-jumpStrength = 750
+jumpStrength = 875
 maxHealth = 9
 currentHealth = 9
 currentSoul = 10
@@ -531,9 +595,12 @@ tree_root = SubResource("AnimationNodeBlendTree_flf3p")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../character_animation_player")
 parameters/AnimationNodeStateMachine/conditions/Attacking = false
-parameters/OneShot/active = false
-parameters/OneShot/internal_active = false
-parameters/OneShot/request = 0
+parameters/knockback/active = false
+parameters/knockback/internal_active = false
+parameters/knockback/request = 0
+parameters/pushback/active = false
+parameters/pushback/internal_active = false
+parameters/pushback/request = 0
 
 [node name="character_animation_player" type="AnimationPlayer" parent="."]
 root_node = NodePath("../nail_handeler")

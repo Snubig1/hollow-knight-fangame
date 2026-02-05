@@ -44,7 +44,7 @@ hit_from_inside = true
 collision_layer = 4
 collision_mask = 0
 
-[node name="HitBox" type="CollisionShape2D" parent="HitArea" groups=["damageing"]]
+[node name="HitBox" type="CollisionShape2D" parent="HitArea" groups=["damageing", "knockback_applying"]]
 position = Vector2(0, -15)
 shape = SubResource("RectangleShape2D_jhokj")
 metadata/damage = 1

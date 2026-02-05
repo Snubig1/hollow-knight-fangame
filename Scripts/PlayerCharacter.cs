@@ -11,9 +11,10 @@ using static ExtraFunctions;
 */
 public partial class PlayerCharacter : CharacterBody2D, IDamageable
 {
+    [ExportGroup("Stats")]
     [Export] public int nailDamage = 5;
     [Export] public int speed = 300;
-    [Export] public int jumpStrength = 500;
+    [Export] public int jumpStrength = 750;
     
 
     [Export] public int maxHealth = 5;
@@ -22,24 +23,31 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
 
     Vector2 preVelocity = new Vector2(0, 0);
     Vector2 absolutePreVelocity;
-    [Export] Vector2 directionalPushVelocity = new Vector2();
+    [ExportGroup("Forced Movement")]
+    [Export] bool disableHorisontalControlls = false;
+    [Export] Vector2 directionalPushVelocity = new Vector2(0,0);
+    [Export] Vector2 nonDirectionalPushVelocity = new Vector2(0,0);
+    [Export] Vector2 nonDirectionalLowerVelocityClamp = new Vector2(-1000000, -1000);
+    [Export] Vector2 nonDirectionalHigherVelocityClamp = new Vector2(1000000, 1000);
 
+    [ExportGroup("Tecnical")]
     Vector2 inputDirection = new Vector2(0, 0);
     [Export] public Direction directionToBe = Direction.Forward;
 
     [Export] bool altAttackAnim;
-
+    
     bool cuttableJumping = false;
     Direction playerDirection = Direction.Forward;
     bool running = false;
     double coyote = .1;
 
+    private AnimationTree animationTree;
     private Gui guiNode;
-
 
     public override void _Ready()
     {
         guiNode = GetNode<Gui>("CanvasLayer/gui");
+        animationTree = GetNode<AnimationTree>("AnimationTree");
         Area2D hitBox = GetNode<Area2D>("PlayerHitbox");
         preVelocity.Y = 0;
         guiNode.SetMaxHealth(maxHealth);
@@ -67,11 +75,13 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
             Jump(jumpStrength,true);
         }
 
-        if (Input.IsActionJustReleased("jump") && cuttableJumping) preVelocity.Y = 0;
+        if (Input.IsActionJustReleased("jump") && cuttableJumping) preVelocity.Y = 10;
 
         preVelocity.X = (float)(Input.GetAxis("left","right") * speed * 50);
-        
+        if (disableHorisontalControlls) preVelocity.X = 0;
 
+
+        
 
         if (Input.GetAxis("left", "right")!= 0)
         {
@@ -79,7 +89,13 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
             running = true;
         }else running = false;
 
-        absolutePreVelocity = (preVelocity + directionalPushVelocity with {X = directionalPushVelocity.X* (int)directionToBe } * 50);
+        absolutePreVelocity = (
+            preVelocity + 
+            (directionalPushVelocity with {X = directionalPushVelocity.X* (int)playerDirection } + nonDirectionalPushVelocity) * 50)
+            //.Clamp(directionalLowerVelocityClamp with { X = directionalLowerVelocityClamp.X * (int)playerDirection }, directionalHigherVelocityClamp with { X = directionalHigherVelocityClamp.X * (int)playerDirection })
+            .Clamp(nonDirectionalLowerVelocityClamp, nonDirectionalHigherVelocityClamp);
+
+
         Velocity = absolutePreVelocity with { X = absolutePreVelocity.X * (float)delta };
 
         MoveAndSlide();
@@ -100,6 +116,7 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
     {
         Node hitByNode = GetNodeOfAreaShape(area, (int)body_shape_index);
         if (hitByNode.IsInGroup("damageing")) Damage((int)hitByNode.GetMeta("damage", 1));
+        if (hitByNode.IsInGroup("knockback_applying")) animationTree.Set("parameters/knockback/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
     }
 
     public void Turn(Direction direct)
