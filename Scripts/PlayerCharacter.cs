@@ -25,6 +25,8 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
     Vector2 absolutePreVelocity;
     [ExportGroup("Forced Movement")]
     [Export] bool disableHorisontalControlls = false;
+    [Export] bool disableJumping = false;
+    [Export] public bool disableNail = false;
     [Export] Vector2 directionalPushVelocity = new Vector2(0,0);
     [Export] Vector2 nonDirectionalPushVelocity = new Vector2(0,0);
     [Export] Vector2 nonDirectionalLowerVelocityClamp = new Vector2(-1000000, -1000);
@@ -35,7 +37,7 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
     [Export] public Direction directionToBe = Direction.Forward;
 
     [Export] bool altAttackAnim;
-    
+
     bool cuttableJumping = false;
     Direction playerDirection = Direction.Forward;
     bool running = false;
@@ -70,8 +72,9 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
 
         if (cuttableJumping && preVelocity.Y >= 0) cuttableJumping = false;
 
-        if (Input.IsActionJustPressed("jump") && coyote>0) 
+        if (!disableJumping && Input.IsActionJustPressed("jump") && coyote > 0) 
         {
+            
             Jump(jumpStrength,true);
         }
 
@@ -137,6 +140,10 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
         Backward = -1,
     }
 
+    public void SetPaused(bool paused)
+    {
+        GetTree().Paused = paused;
+    }
 
     public void Jump(int streangth, bool cuttable)
     {

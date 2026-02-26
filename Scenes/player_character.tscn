@@ -8,7 +8,7 @@
 [ext_resource type="PackedScene" uid="uid://b8x4l0svm5d8u" path="res://Scenes/gui.tscn" id="7_ajo0r"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ajo0r"]
-animation = &"knockback"
+animation = &"take_damage"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_ons1q"]
 animation = &"pushback"
@@ -21,7 +21,7 @@ filters = ["..:directionalPushVelocity"]
 mix_mode = 1
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_flf3p"]
-graph_offset = Vector2(-393.39, 9.48535)
+graph_offset = Vector2(-440.39, 14.4854)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_ons1q")
 nodes/Animation/position = Vector2(-200, 180)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_ajo0r")
@@ -184,7 +184,7 @@ tracks/11/keys = {
 tracks/12/type = "value"
 tracks/12/imported = false
 tracks/12/enabled = true
-tracks/12/path = NodePath("..:modulate")
+tracks/12/path = NodePath("../Sprite2D:self_modulate")
 tracks/12/interp = 1
 tracks/12/loop_wrap = true
 tracks/12/keys = {
@@ -192,6 +192,30 @@ tracks/12/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/13/type = "value"
+tracks/13/imported = false
+tracks/13/enabled = true
+tracks/13/path = NodePath("..:disableJumping")
+tracks/13/interp = 1
+tracks/13/loop_wrap = true
+tracks/13/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/14/type = "value"
+tracks/14/imported = false
+tracks/14/enabled = true
+tracks/14/path = NodePath("..:disableNail")
+tracks/14/interp = 1
+tracks/14/loop_wrap = true
+tracks/14/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
 }
 
 [sub_resource type="Animation" id="Animation_ews8v"]
@@ -397,72 +421,6 @@ tracks/0/keys = {
 "values": [Vector2i(0, 5), Vector2i(1, 5), Vector2i(2, 5)]
 }
 
-[sub_resource type="Animation" id="Animation_xeb05"]
-resource_name = "knockback"
-length = 1.3
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("..:directionalPushVelocity")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.266667),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [Vector2(-300, -8), Vector2(0, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..:disableHorisontalControlls")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.2),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../PlayerHitbox/PlayerCollision:disabled")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1.3),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/3/type = "method"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("..")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"values": [{
-"args": [0, false],
-"method": &"Jump"
-}]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("..:modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(0.15, 0.15, 0.15, 1), Color(1, 1, 1, 1), Color(0.15, 0.15, 0.15, 1), Color(1, 1, 1, 1), Color(0.15, 0.15, 0.15, 1), Color(1, 1, 1, 1), Color(0.15, 0.15, 0.15, 1), Color(1, 1, 1, 1)]
-}
-
 [sub_resource type="Animation" id="Animation_6m2el"]
 resource_name = "pushback"
 length = 0.15
@@ -615,6 +573,114 @@ tracks/1/keys = {
 "values": [true, false]
 }
 
+[sub_resource type="Animation" id="Animation_xeb05"]
+resource_name = "take_damage"
+length = 1.3
+step = 0.0333
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [0, false],
+"method": &"Jump"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:directionalPushVelocity")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.133333, 0.433333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [Vector2(-300, -8), Vector2(0, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..:disableHorisontalControlls")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:disableJumping")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../PlayerHitbox/PlayerCollision:disabled")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/5/type = "method"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("..")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0, 0.133333),
+"transitions": PackedFloat32Array(1, 1),
+"values": [{
+"args": [true],
+"method": &"SetPaused"
+}, {
+"args": [false],
+"method": &"SetPaused"
+}]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("../Sprite2D:self_modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45, 0.6, 0.75, 0.9, 1.05, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(0.14902, 0.14902, 0.14902, 1), Color(1, 1, 1, 1), Color(0.14902, 0.14902, 0.14902, 1), Color(1, 1, 1, 1), Color(0.14902, 0.14902, 0.14902, 1), Color(1, 1, 1, 1), Color(0.14902, 0.14902, 0.14902, 1), Color(1, 1, 1, 1)]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("..:disableNail")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 0.333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_12ptb"]
 _data = {
 &"RESET": SubResource("Animation_4pbxa"),
@@ -626,11 +692,11 @@ _data = {
 &"foreward_nail_swing_2": SubResource("Animation_flf3p"),
 &"idle": SubResource("Animation_o0f8b"),
 &"jump": SubResource("Animation_12ptb"),
-&"knockback": SubResource("Animation_xeb05"),
 &"pushback": SubResource("Animation_6m2el"),
 &"run_continuous": SubResource("Animation_a1rxb"),
 &"run_start": SubResource("Animation_nw3ir"),
 &"run_stop": SubResource("Animation_pb3n0"),
+&"take_damage": SubResource("Animation_xeb05"),
 &"turn": SubResource("Animation_ajo0r"),
 &"turn_air": SubResource("Animation_euix3"),
 &"up_nail_swing": SubResource("Animation_w775p")
@@ -643,6 +709,8 @@ size = Vector2(34, 80)
 size = Vector2(4, 4)
 
 [node name="player_character" type="CharacterBody2D"]
+process_mode = 1
+self_modulate = Color(0.602721, 0.602721, 0.602721, 1)
 collision_layer = 0
 platform_on_leave = 2
 script = ExtResource("1_qcwfp")
@@ -652,6 +720,7 @@ currentHealth = 9
 currentSoul = 10
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+process_mode = 3
 root_node = NodePath("../nail_handeler")
 tree_root = SubResource("AnimationNodeBlendTree_flf3p")
 advance_expression_base_node = NodePath("..")

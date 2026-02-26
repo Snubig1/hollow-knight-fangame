@@ -10,6 +10,7 @@ size = Vector2(50, 30)
 size = Vector2(44.0807, 27)
 
 [node name="crawlid" type="CharacterBody2D"]
+process_mode = 1
 scale = Vector2(0.99817, 1)
 collision_layer = 2
 floor_snap_length = 3.0
