@@ -54,9 +54,9 @@
               "Title": "PlayerCharacter.cs",
               "DocumentMoniker": "C:\\Users\\Snorre.Christensen\\Documents\\hollow-knight-fangame\\Scripts\\PlayerCharacter.cs",
               "RelativeDocumentMoniker": "Scripts\\PlayerCharacter.cs",
-              "ToolTip": "C:\\Users\\Snorre.Christensen\\Documents\\hollow-knight-fangame\\Scripts\\PlayerCharacter.cs*",
-              "RelativeToolTip": "Scripts\\PlayerCharacter.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAAAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\Snorre.Christensen\\Documents\\hollow-knight-fangame\\Scripts\\PlayerCharacter.cs",
+              "RelativeToolTip": "Scripts\\PlayerCharacter.cs",
+              "ViewState": "AgIAAGsAAAAAAAAAAAAwwIUAAAAZAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-11-20T12:45:42.962Z",
               "EditorCaption": ""
@@ -71,7 +71,8 @@
               "RelativeToolTip": "Scripts\\ExtraFunctions.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-25T11:37:49.148Z"
+              "WhenOpened": "2025-09-25T11:37:49.148Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -81,7 +82,7 @@
               "RelativeDocumentMoniker": "Scripts\\NailHandeler.cs",
               "ToolTip": "C:\\Users\\Snorre.Christensen\\Documents\\hollow-knight-fangame\\Scripts\\NailHandeler.cs",
               "RelativeToolTip": "Scripts\\NailHandeler.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAQwCwAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAEAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-25T08:40:52.556Z",
               "EditorCaption": ""
