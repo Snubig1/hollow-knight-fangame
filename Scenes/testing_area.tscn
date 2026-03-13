@@ -1,7 +1,8 @@
-[gd_scene load_steps=11 format=3 uid="uid://itp257xnsumt"]
+[gd_scene load_steps=12 format=3 uid="uid://itp257xnsumt"]
 
 [ext_resource type="PackedScene" uid="uid://1fcut7yuncwa" path="res://Scenes/player_character.tscn" id="1_osyij"]
 [ext_resource type="PackedScene" uid="uid://c2c04105shnu4" path="res://Scenes/crawlid.tscn" id="2_ylbj8"]
+[ext_resource type="PackedScene" uid="uid://bjqnnnf02jpim" path="res://Scenes/bench.tscn" id="3_rdde1"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2n4r3"]
 size = Vector2(602, 294)
@@ -30,7 +31,7 @@ size = Vector2(29.25, 102)
 [node name="testing_area" type="Node2D"]
 
 [node name="player_character" parent="." instance=ExtResource("1_osyij")]
-position = Vector2(457, 312)
+position = Vector2(25, 94)
 nailDamage = 1
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
@@ -87,4 +88,7 @@ shape = SubResource("RectangleShape2D_644mh")
 position = Vector2(822, 402)
 
 [node name="Crawlid2" parent="." instance=ExtResource("2_ylbj8")]
-position = Vector2(985, 385)
+position = Vector2(964, 370)
+
+[node name="bench" parent="." instance=ExtResource("3_rdde1")]
+position = Vector2(202, 542)

@@ -1,6 +1,7 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using static ExtraFunctions;
 
 /*
@@ -8,6 +9,8 @@ using static ExtraFunctions;
    1 is the ground
    2 is enemy hurtboxes
    3 is enemy hitboxes
+   4 is the player
+   5 is a bench
 */
 public partial class PlayerCharacter : CharacterBody2D, IDamageable
 {
@@ -42,15 +45,19 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
     Direction playerDirection = Direction.Forward;
     bool running = false;
     double coyote = .1;
+    bool hasTakenDamageInFrame = false;
 
     private AnimationTree animationTree;
+    private AnimationNodeStateMachinePlayback animationStateMachine;
+    private Area2D hitBox;
     private Gui guiNode;
 
     public override void _Ready()
     {
         guiNode = GetNode<Gui>("CanvasLayer/gui");
         animationTree = GetNode<AnimationTree>("AnimationTree");
-        Area2D hitBox = GetNode<Area2D>("PlayerHitbox");
+        animationStateMachine = animationTree.Get("parameters/AnimationNodeStateMachine/playback").As<AnimationNodeStateMachinePlayback>();
+        hitBox = GetNode<Area2D>("PlayerHitbox");
         preVelocity.Y = 0;
         guiNode.SetMaxHealth(maxHealth);
         guiNode.SetHealth(currentHealth);
@@ -60,6 +67,7 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
 
     public override void _PhysicsProcess(double delta)
     {
+        hasTakenDamageInFrame = false;
         inputDirection = Input.GetVector("left", "right", "up", "down").Normalized();
 
         if (IsOnFloor()) coyote = .1f;
@@ -67,15 +75,20 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
 
         preVelocity.Y += GetGravity().Y*(float)delta;
         preVelocity.Y = Math.Clamp(preVelocity.Y,-1000, 1000);
-        if (IsOnFloor()) preVelocity.Y = 0;
+        if (IsOnFloor() && preVelocity.Y > 0) preVelocity.Y = 0;
         if (IsOnCeiling()) preVelocity.Y = 10;
 
         if (cuttableJumping && preVelocity.Y >= 0) cuttableJumping = false;
 
+        if (Input.IsActionJustPressed("up"))
+        {
+            GD.Print(hitBox.GetOverlappingAreas().ToList().Find(area => area.Name == "BenchArea"));
+        }
+
         if (!disableJumping && Input.IsActionJustPressed("jump") && coyote > 0) 
         {
-            
-            Jump(jumpStrength,true);
+            animationStateMachine.Travel("jump");
+            //Jump(jumpStrength,true);
         }
 
         if (Input.IsActionJustReleased("jump") && cuttableJumping) preVelocity.Y = 10;
@@ -108,6 +121,10 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
     {
         currentHealth -= damage;
         guiNode.SetHealth(currentHealth);
+        if (currentHealth <= 0)
+        {
+            GD.Print("die");
+        }
     }
     public void ChangeSoul(int soul)
     {
@@ -117,8 +134,13 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
 
     public void OnGetHit(Rid area_rid, Area2D area, long body_shape_index, long local_shape_index)
     {
+        if (hasTakenDamageInFrame) return;
         Node hitByNode = GetNodeOfAreaShape(area, (int)body_shape_index);
-        if (hitByNode.IsInGroup("damageing")) Damage((int)hitByNode.GetMeta("damage", 1));
+        if (hitByNode.IsInGroup("damageing")) 
+        {
+            Damage((int)hitByNode.GetMeta("damage", 1)); 
+            hasTakenDamageInFrame = true;
+        }
         if (hitByNode.IsInGroup("knockback_applying")) animationTree.Set("parameters/knockback/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
     }
 
@@ -150,6 +172,11 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
         coyote = 0;
         preVelocity.Y = -streangth;
         cuttableJumping = cuttable;
+    }
+    public void Jump()
+    {
+        
+        Jump(jumpStrength,true);
     }
 
 }
