@@ -1,4 +1,4 @@
-[gd_resource type="AnimationNodeStateMachine" load_steps=58 format=3 uid="uid://sp8phh7gn8os"]
+[gd_resource type="AnimationNodeStateMachine" format=3 uid="uid://sp8phh7gn8os"]
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_sddog"]
 animation = &"down_nail_swing"
@@ -68,6 +68,9 @@ states/up_nail_swing/position = Vector2(512, 38)
 transitions = ["Start", "down_nail_swing", SubResource("AnimationNodeStateMachineTransition_efujw"), "Start", "foreward_nail_swing", SubResource("AnimationNodeStateMachineTransition_xiyxo"), "Start", "up_nail_swing", SubResource("AnimationNodeStateMachineTransition_7wi4e"), "Start", "foreward_nail_swing_2", SubResource("AnimationNodeStateMachineTransition_3vapy"), "down_nail_swing", "end_attack", SubResource("AnimationNodeStateMachineTransition_j7860"), "foreward_nail_swing", "end_attack", SubResource("AnimationNodeStateMachineTransition_1bcmn"), "foreward_nail_swing_2", "end_attack", SubResource("AnimationNodeStateMachineTransition_jwcaw"), "up_nail_swing", "end_attack", SubResource("AnimationNodeStateMachineTransition_itfrx"), "end_attack", "End", SubResource("AnimationNodeStateMachineTransition_l50h2")]
 graph_offset = Vector2(-120, -21)
 
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_yrn1h"]
+animation = &"death"
+
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_xiyxo"]
 animation = &"fall_continuous"
 
@@ -88,6 +91,9 @@ animation = &"run_start"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_q3s8k"]
 animation = &"run_stop"
+
+[sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_timbt"]
+animation = &"sit_on_bench"
 
 [sub_resource type="AnimationNodeAnimation" id="AnimationNodeAnimation_6031v"]
 animation = &"turn"
@@ -235,11 +241,41 @@ advance_expression = "preVelocity.y >0"
 advance_mode = 2
 advance_condition = &"Attacking"
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_81m86"]
+advance_mode = 2
+advance_condition = &"bench_sit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_mvih2"]
+advance_mode = 2
+advance_condition = &"bench_sit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_6cbit"]
+advance_mode = 2
+advance_condition = &"bench_sit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ckgsr"]
+advance_mode = 2
+advance_condition = &"bench_sit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_rd7vm"]
+advance_mode = 2
+advance_condition = &"bench_sit"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hhbsb"]
+switch_mode = 2
+advance_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_ic6jd"]
+switch_mode = 2
+advance_mode = 2
+
 [resource]
 states/Attack/node = SubResource("AnimationNodeStateMachine_jije6")
 states/Attack/position = Vector2(392, 292)
 states/End/position = Vector2(887, 59)
 states/Start/position = Vector2(211, 23)
+states/death/node = SubResource("AnimationNodeAnimation_yrn1h")
+states/death/position = Vector2(86, 23)
 states/fall_continuous/node = SubResource("AnimationNodeAnimation_xiyxo")
 states/fall_continuous/position = Vector2(483, 200)
 states/fall_start/node = SubResource("AnimationNodeAnimation_7wi4e")
@@ -254,11 +290,13 @@ states/run_start/node = SubResource("AnimationNodeAnimation_ons1q")
 states/run_start/position = Vector2(86, 200)
 states/run_stop/node = SubResource("AnimationNodeAnimation_q3s8k")
 states/run_stop/position = Vector2(211, 169)
+states/sit_on_bench/node = SubResource("AnimationNodeAnimation_timbt")
+states/sit_on_bench/position = Vector2(-67, 169)
 states/turn/node = SubResource("AnimationNodeAnimation_6031v")
 states/turn/position = Vector2(86, 304)
 states/turn_air/node = SubResource("AnimationNodeAnimation_j7860")
 states/turn_air/position = Vector2(392, 52)
 states/turn_air2/node = SubResource("AnimationNodeAnimation_1bcmn")
-states/turn_air2/position = Vector2(483, 143)
-transitions = ["run_start", "run_continuous", SubResource("AnimationNodeStateMachineTransition_flf3p"), "idle", "run_start", SubResource("AnimationNodeStateMachineTransition_sddog"), "run_stop", "idle", SubResource("AnimationNodeStateMachineTransition_h6k1e"), "run_start", "run_stop", SubResource("AnimationNodeStateMachineTransition_h748o"), "run_continuous", "run_stop", SubResource("AnimationNodeStateMachineTransition_6031v"), "run_stop", "run_start", SubResource("AnimationNodeStateMachineTransition_wxgrs"), "run_continuous", "turn", SubResource("AnimationNodeStateMachineTransition_jije6"), "run_start", "turn", SubResource("AnimationNodeStateMachineTransition_c6ye7"), "turn", "run_start", SubResource("AnimationNodeStateMachineTransition_djvk3"), "idle", "Attack", SubResource("AnimationNodeStateMachineTransition_timbt"), "run_stop", "Attack", SubResource("AnimationNodeStateMachineTransition_yrn1h"), "run_start", "Attack", SubResource("AnimationNodeStateMachineTransition_rakp1"), "run_continuous", "Attack", SubResource("AnimationNodeStateMachineTransition_0pc6x"), "Attack", "idle", SubResource("AnimationNodeStateMachineTransition_b6olt"), "Attack", "run_continuous", SubResource("AnimationNodeStateMachineTransition_h1rq2"), "turn", "Attack", SubResource("AnimationNodeStateMachineTransition_6xxos"), "Attack", "fall_continuous", SubResource("AnimationNodeStateMachineTransition_n8v4s"), "fall_start", "fall_continuous", SubResource("AnimationNodeStateMachineTransition_847lw"), "idle", "fall_start", SubResource("AnimationNodeStateMachineTransition_kjvur"), "fall_start", "Attack", SubResource("AnimationNodeStateMachineTransition_iev3h"), "fall_continuous", "Attack", SubResource("AnimationNodeStateMachineTransition_r0c0u"), "fall_start", "idle", SubResource("AnimationNodeStateMachineTransition_q7xav"), "fall_continuous", "idle", SubResource("AnimationNodeStateMachineTransition_2xu4o"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_q3s8k"), "run_continuous", "fall_start", SubResource("AnimationNodeStateMachineTransition_3uikw"), "run_start", "fall_start", SubResource("AnimationNodeStateMachineTransition_5kws6"), "fall_start", "turn_air", SubResource("AnimationNodeStateMachineTransition_1oym4"), "fall_continuous", "turn_air2", SubResource("AnimationNodeStateMachineTransition_biptq"), "turn_air", "fall_start", SubResource("AnimationNodeStateMachineTransition_ibkhk"), "turn_air2", "fall_continuous", SubResource("AnimationNodeStateMachineTransition_nmjs7"), "jump", "fall_start", SubResource("AnimationNodeStateMachineTransition_xvwh0"), "jump", "Attack", SubResource("AnimationNodeStateMachineTransition_7bmoh")]
-graph_offset = Vector2(-272, 131)
+states/turn_air2/position = Vector2(483, 152)
+transitions = ["run_start", "run_continuous", SubResource("AnimationNodeStateMachineTransition_flf3p"), "idle", "run_start", SubResource("AnimationNodeStateMachineTransition_sddog"), "run_stop", "idle", SubResource("AnimationNodeStateMachineTransition_h6k1e"), "run_start", "run_stop", SubResource("AnimationNodeStateMachineTransition_h748o"), "run_continuous", "run_stop", SubResource("AnimationNodeStateMachineTransition_6031v"), "run_stop", "run_start", SubResource("AnimationNodeStateMachineTransition_wxgrs"), "run_continuous", "turn", SubResource("AnimationNodeStateMachineTransition_jije6"), "run_start", "turn", SubResource("AnimationNodeStateMachineTransition_c6ye7"), "turn", "run_start", SubResource("AnimationNodeStateMachineTransition_djvk3"), "idle", "Attack", SubResource("AnimationNodeStateMachineTransition_timbt"), "run_stop", "Attack", SubResource("AnimationNodeStateMachineTransition_yrn1h"), "run_start", "Attack", SubResource("AnimationNodeStateMachineTransition_rakp1"), "run_continuous", "Attack", SubResource("AnimationNodeStateMachineTransition_0pc6x"), "Attack", "idle", SubResource("AnimationNodeStateMachineTransition_b6olt"), "Attack", "run_continuous", SubResource("AnimationNodeStateMachineTransition_h1rq2"), "turn", "Attack", SubResource("AnimationNodeStateMachineTransition_6xxos"), "Attack", "fall_continuous", SubResource("AnimationNodeStateMachineTransition_n8v4s"), "fall_start", "fall_continuous", SubResource("AnimationNodeStateMachineTransition_847lw"), "idle", "fall_start", SubResource("AnimationNodeStateMachineTransition_kjvur"), "fall_start", "Attack", SubResource("AnimationNodeStateMachineTransition_iev3h"), "fall_continuous", "Attack", SubResource("AnimationNodeStateMachineTransition_r0c0u"), "fall_start", "idle", SubResource("AnimationNodeStateMachineTransition_q7xav"), "fall_continuous", "idle", SubResource("AnimationNodeStateMachineTransition_2xu4o"), "Start", "idle", SubResource("AnimationNodeStateMachineTransition_q3s8k"), "run_continuous", "fall_start", SubResource("AnimationNodeStateMachineTransition_3uikw"), "run_start", "fall_start", SubResource("AnimationNodeStateMachineTransition_5kws6"), "fall_start", "turn_air", SubResource("AnimationNodeStateMachineTransition_1oym4"), "fall_continuous", "turn_air2", SubResource("AnimationNodeStateMachineTransition_biptq"), "turn_air", "fall_start", SubResource("AnimationNodeStateMachineTransition_ibkhk"), "turn_air2", "fall_continuous", SubResource("AnimationNodeStateMachineTransition_nmjs7"), "jump", "fall_start", SubResource("AnimationNodeStateMachineTransition_xvwh0"), "jump", "Attack", SubResource("AnimationNodeStateMachineTransition_7bmoh"), "run_start", "sit_on_bench", SubResource("AnimationNodeStateMachineTransition_81m86"), "idle", "sit_on_bench", SubResource("AnimationNodeStateMachineTransition_mvih2"), "run_stop", "sit_on_bench", SubResource("AnimationNodeStateMachineTransition_6cbit"), "turn", "sit_on_bench", SubResource("AnimationNodeStateMachineTransition_ckgsr"), "run_continuous", "sit_on_bench", SubResource("AnimationNodeStateMachineTransition_rd7vm"), "sit_on_bench", "idle", SubResource("AnimationNodeStateMachineTransition_hhbsb"), "death", "idle", SubResource("AnimationNodeStateMachineTransition_ic6jd")]
+graph_offset = Vector2(-398, -57)

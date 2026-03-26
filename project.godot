@@ -8,11 +8,15 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Hollow Knight Fangame"
-run/main_scene="res://Scenes/testing_area.tscn"
-config/features=PackedStringArray("4.4", "C#", "GL Compatibility")
+run/main_scene="res://Scenes/root.tscn"
+config/features=PackedStringArray("4.6", "C#", "GL Compatibility")
 config/icon="res://icon.svg"
 
 [display]
@@ -37,6 +41,7 @@ damageable="whether this shape can be damaged"
 recoiling="whether this shape inflicts recoil on atacker when hit"
 damageing="if this shape deals damage to the knight (deals metadata int \"damage\" default of 1)"
 knockback_applying="wheather this area applies knockback"
+interactable="whether this area can be interacted with by pressing up/w"
 
 [input]
 

@@ -21,4 +21,10 @@ public partial class Bench : Node2D
     {
         sitPrompt.Visible = false;
     }
+
+    public void sit(Node2D sitter, Tween tween)
+    {
+        GD.Print(sitter, tween);
+        tween.TweenProperty(sitter, "position", this.GlobalPosition, 1.0f);
+    }
 }

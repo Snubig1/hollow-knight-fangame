@@ -19,6 +19,26 @@ public static class ExtraFunctions
             );
     }
 }
+public class TweenAnimationPlayer(Node owner)
+{
+    private Tween _tween;
+
+    private void ClearAnimation()
+    {
+        if (_tween != null)
+            _tween.Kill();
+        _tween = owner.CreateTween();
+    }
+    public void SitOnBench(Bench bench)
+    {
+        ClearAnimation();
+        _tween.SetTrans(Tween.TransitionType.Linear);
+        _tween.TweenProperty(owner, "position", bench.GlobalPosition, 0.2f);
+        
+    }
+
+
+}
 
 interface IDamageable
 {

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static ExtraFunctions;
+using static Godot.OpenXRCompositionLayer;
 
 /*
  for collision masks
@@ -47,8 +48,11 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
     double coyote = .1;
     bool hasTakenDamageInFrame = false;
 
+    private Bench lastBench;
+    private string lastSavedScene;
     private AnimationTree animationTree;
     private AnimationNodeStateMachinePlayback animationStateMachine;
+    private TweenAnimationPlayer tweenPlayer;
     private Area2D hitBox;
     private Gui guiNode;
 
@@ -57,6 +61,7 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
         guiNode = GetNode<Gui>("CanvasLayer/gui");
         animationTree = GetNode<AnimationTree>("AnimationTree");
         animationStateMachine = animationTree.Get("parameters/AnimationNodeStateMachine/playback").As<AnimationNodeStateMachinePlayback>();
+        tweenPlayer = new TweenAnimationPlayer(this);
         hitBox = GetNode<Area2D>("PlayerHitbox");
         preVelocity.Y = 0;
         guiNode.SetMaxHealth(maxHealth);
@@ -80,9 +85,9 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
 
         if (cuttableJumping && preVelocity.Y >= 0) cuttableJumping = false;
 
-        if (Input.IsActionJustPressed("up"))
+        if (Input.IsActionJustPressed("up") && IsOnFloor())
         {
-            GD.Print(hitBox.GetOverlappingAreas().ToList().Find(area => area.Name == "BenchArea"));
+            interact();
         }
 
         if (!disableJumping && Input.IsActionJustPressed("jump") && coyote > 0) 
@@ -108,7 +113,6 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
         absolutePreVelocity = (
             preVelocity + 
             (directionalPushVelocity with {X = directionalPushVelocity.X* (int)playerDirection } + nonDirectionalPushVelocity) * 50)
-            //.Clamp(directionalLowerVelocityClamp with { X = directionalLowerVelocityClamp.X * (int)playerDirection }, directionalHigherVelocityClamp with { X = directionalHigherVelocityClamp.X * (int)playerDirection })
             .Clamp(nonDirectionalLowerVelocityClamp, nonDirectionalHigherVelocityClamp);
 
 
@@ -119,11 +123,11 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
 
     public void Damage(int damage)
     {
-        currentHealth -= damage;
+        currentHealth = Math.Clamp(currentHealth - damage, 0, maxHealth);
         guiNode.SetHealth(currentHealth);
-        if (currentHealth <= 0)
+        if (currentHealth == 0)
         {
-            GD.Print("die");
+            Die();
         }
     }
     public void ChangeSoul(int soul)
@@ -138,10 +142,14 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
         Node hitByNode = GetNodeOfAreaShape(area, (int)body_shape_index);
         if (hitByNode.IsInGroup("damageing")) 
         {
-            Damage((int)hitByNode.GetMeta("damage", 1)); 
+            Damage((int)hitByNode.GetMeta("damage", 1));
             hasTakenDamageInFrame = true;
         }
-        if (hitByNode.IsInGroup("knockback_applying")) animationTree.Set("parameters/knockback/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+        if (!(currentHealth <= 0) && hitByNode.IsInGroup("knockback_applying")) animationTree.Set("parameters/knockback/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+    }
+    public void Die(bool dream = false)
+    {
+        animationStateMachine.Travel("death");
     }
 
     public void Turn(Direction direct)
@@ -179,4 +187,28 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
         Jump(jumpStrength,true);
     }
 
+    public void SitOnLastBench()
+    {
+        tweenPlayer.SitOnBench(lastBench);
+    }
+
+    public void RespawnAtLastBench()
+    {
+        GD.Print(lastSavedScene);
+
+        GetTree().ChangeSceneToFile(lastSavedScene);
+    }
+
+    private bool interact()
+    {
+        Area2D interactable = hitBox.GetOverlappingAreas().ToList().Find(area => area.IsInGroup("interactable"));
+        if (interactable == null) return false;
+        if (interactable.GetParent().Name == "bench")
+        {
+            lastBench = interactable.GetParent<Bench>();
+            lastSavedScene = GetTree().CurrentScene.SceneFilePath;
+            animationTree.Set("parameters/AnimationNodeStateMachine/conditions/bench_sit", true);
+        }
+        return true;
+    }
 }

@@ -1,6 +1,5 @@
-[gd_scene load_steps=12 format=3 uid="uid://itp257xnsumt"]
+[gd_scene format=3 uid="uid://dg7t6rh5p77ar"]
 
-[ext_resource type="PackedScene" uid="uid://1fcut7yuncwa" path="res://Scenes/player_character.tscn" id="1_osyij"]
 [ext_resource type="PackedScene" uid="uid://c2c04105shnu4" path="res://Scenes/crawlid.tscn" id="2_ylbj8"]
 [ext_resource type="PackedScene" uid="uid://bjqnnnf02jpim" path="res://Scenes/bench.tscn" id="3_rdde1"]
 
@@ -28,67 +27,90 @@ size = Vector2(26, 7)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_644mh"]
 size = Vector2(29.25, 102)
 
-[node name="testing_area" type="Node2D"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_qlokn"]
+size = Vector2(3936, 187)
 
-[node name="player_character" parent="." instance=ExtResource("1_osyij")]
-position = Vector2(25, 94)
-nailDamage = 1
+[node name="level" type="Node2D" unique_id=47427890]
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=122294519]
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" groups=["recoiling"]]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=2062422492 groups=["recoiling"]]
 position = Vector2(841, 687)
 shape = SubResource("RectangleShape2D_2n4r3")
 
-[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D/CollisionShape2D"]
+[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D/CollisionShape2D" unique_id=1785221361]
 position = Vector2(1.99991, 0.500004)
 scale = Vector2(7.98684, 11.8)
 texture = SubResource("PlaceholderTexture2D_ylbj8")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" groups=["pogoable", "recoiling"]]
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=1319631453 groups=["pogoable", "recoiling"]]
 position = Vector2(181, 667)
 shape = SubResource("RectangleShape2D_rdde1")
 
-[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D/CollisionShape2D2"]
+[node name="Sprite2D" type="Sprite2D" parent="StaticBody2D/CollisionShape2D2" unique_id=582785107]
 position = Vector2(0.249973, -0.125005)
 scale = Vector2(4.99342, 9.99)
 texture = SubResource("PlaceholderTexture2D_ylbj8")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D" groups=["recoiling"]]
-position = Vector2(454.5, 593.5)
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D" unique_id=886762344 groups=["recoiling"]]
+position = Vector2(455, 754)
 shape = SubResource("RectangleShape2D_ylbj8")
 
-[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D" groups=["recoiling"]]
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D" unique_id=1530063265 groups=["recoiling"]]
 position = Vector2(837, 420)
 shape = SubResource("RectangleShape2D_osyij")
 
-[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D/CollisionShape2D4"]
+[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D/CollisionShape2D4" unique_id=67477652]
 position = Vector2(-0.250024, -0.249996)
 scale = Vector2(5, 5.07143)
 texture = SubResource("PlaceholderTexture2D_osyij")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D" groups=["recoiling"]]
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="StaticBody2D" unique_id=436583456 groups=["recoiling"]]
 position = Vector2(967, 420)
 shape = SubResource("RectangleShape2D_osyij")
 
-[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D/CollisionShape2D5"]
+[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D/CollisionShape2D5" unique_id=93972498]
 position = Vector2(-0.250024, -0.249996)
 scale = Vector2(5, 5.07143)
 texture = SubResource("PlaceholderTexture2D_rdde1")
 metadata/_edit_lock_ = true
 
-[node name="CollisionShape2D6" type="CollisionShape2D" parent="StaticBody2D"]
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="StaticBody2D" unique_id=1970908553]
 position = Vector2(9.375, 463)
 shape = SubResource("RectangleShape2D_644mh")
 
-[node name="Crawlid" parent="." instance=ExtResource("2_ylbj8")]
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="StaticBody2D" unique_id=1440916402 groups=["recoiling"]]
+position = Vector2(-424, 687)
+shape = SubResource("RectangleShape2D_2n4r3")
+
+[node name="Sprite2D2" type="Sprite2D" parent="StaticBody2D/CollisionShape2D7" unique_id=1559007676]
+position = Vector2(1.99991, 0.500004)
+scale = Vector2(7.98684, 11.8)
+texture = SubResource("PlaceholderTexture2D_ylbj8")
+metadata/_edit_lock_ = true
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="StaticBody2D" unique_id=365814965 groups=["recoiling"]]
+position = Vector2(-69, 765)
+shape = SubResource("RectangleShape2D_ylbj8")
+
+[node name="Crawlid" parent="." unique_id=917998282 instance=ExtResource("2_ylbj8")]
 position = Vector2(822, 402)
 
-[node name="Crawlid2" parent="." instance=ExtResource("2_ylbj8")]
+[node name="Crawlid2" parent="." unique_id=1309334040 instance=ExtResource("2_ylbj8")]
 position = Vector2(964, 370)
 
-[node name="bench" parent="." instance=ExtResource("3_rdde1")]
-position = Vector2(202, 542)
+[node name="bench" parent="." unique_id=1337686057 instance=ExtResource("3_rdde1")]
+position = Vector2(-423, 501.99997)
+
+[node name="Area2D" type="Area2D" parent="." unique_id=724605028]
+position = Vector2(7, 1125)
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1824200312 groups=["damageing", "pogoable"]]
+position = Vector2(-5, 83.5)
+shape = SubResource("RectangleShape2D_qlokn")
+metadata/damage = 100

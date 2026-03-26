@@ -1,9 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjqnnnf02jpim"]
+[gd_scene format=3 uid="uid://bjqnnnf02jpim"]
 
 [ext_resource type="Script" uid="uid://dk67bp1iyjao8" path="res://Scenes/Bench.cs" id="1_rgxpg"]
-
-[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_wts82"]
-size = Vector2(40, 20)
+[ext_resource type="Texture2D" uid="uid://bvdu5lar1wdco" path="res://Sprites/old/Town_bench.png" id="2_e6kot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_erv1k"]
 size = Vector2(40, 20)
@@ -11,40 +9,42 @@ size = Vector2(40, 20)
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_rgxpg"]
 size = Vector2(12, 8)
 
-[node name="bench" type="Node2D"]
+[node name="bench" type="Node2D" unique_id=128238335]
 z_index = -1
 scale = Vector2(3.5, 3.5)
 script = ExtResource("1_rgxpg")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(0.611324, 0.30316, 0.111655, 1)
-position = Vector2(0, -10)
-texture = SubResource("PlaceholderTexture2D_wts82")
-
-[node name="BenchArea" type="Area2D" parent="."]
+[node name="BenchArea" type="Area2D" parent="." unique_id=438803474 groups=["interactable"]]
+position = Vector2(0.2857143, 3.1428576)
+scale = Vector2(2.2571428, 2.0249805)
 collision_layer = 16
 collision_mask = 8
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="BenchArea"]
-position = Vector2(0, -10)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="BenchArea" unique_id=447319059]
+position = Vector2(-0.25316456, -5.220508)
 shape = SubResource("RectangleShape2D_erv1k")
 
-[node name="SitPrompt" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="BenchArea" unique_id=1916932560]
+position = Vector2(-0.12658226, -5.220508)
+scale = Vector2(0.21999998, 0.21999995)
+texture = ExtResource("2_e6kot")
+
+[node name="SitPrompt" type="Sprite2D" parent="." unique_id=1816273255]
 visible = false
 modulate = Color(0.68, 0.68, 0.3468, 0.301961)
-position = Vector2(1.42109e-14, -24.8571)
+position = Vector2(1.6940659e-21, -38.571426)
 texture = SubResource("PlaceholderTexture2D_rgxpg")
 
-[node name="Label" type="Label" parent="SitPrompt"]
+[node name="Label" type="Label" parent="SitPrompt" unique_id=966838127]
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -2.85714
-offset_top = -2.57143
-offset_right = 44.1429
-offset_bottom = 56.4286
+offset_left = -5.1428576
+offset_top = -2.8571877
+offset_right = 83.85714
+offset_bottom = 56.142845
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(0.1, 0.1)
 theme_override_font_sizes/font_size = 48
-text = "Sit"
+text = "Rest"

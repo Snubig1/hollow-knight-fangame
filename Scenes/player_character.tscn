@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://1fcut7yuncwa"]
+[gd_scene format=3 uid="uid://1fcut7yuncwa"]
 
 [ext_resource type="Script" uid="uid://dwaethebq4d52" path="res://Scripts/PlayerCharacter.cs" id="1_qcwfp"]
 [ext_resource type="Script" uid="uid://0rhmteroqoos" path="res://Scripts/NailHandeler.cs" id="2_cmdk4"]
@@ -21,7 +21,8 @@ filters = ["..:directionalPushVelocity"]
 mix_mode = 1
 
 [sub_resource type="AnimationNodeBlendTree" id="AnimationNodeBlendTree_flf3p"]
-graph_offset = Vector2(-631.358, -42.2993)
+graph_offset = Vector2(-469, -9)
+nodes/output/position = Vector2(380, 60)
 nodes/Animation/node = SubResource("AnimationNodeAnimation_ons1q")
 nodes/Animation/position = Vector2(-200, 180)
 "nodes/Animation 2/node" = SubResource("AnimationNodeAnimation_ajo0r")
@@ -30,10 +31,9 @@ nodes/AnimationNodeStateMachine/node = ExtResource("2_wko77")
 nodes/AnimationNodeStateMachine/position = Vector2(-440, 60)
 nodes/knockback/node = SubResource("AnimationNodeOneShot_flf3p")
 nodes/knockback/position = Vector2(220, 60)
-nodes/output/position = Vector2(380, 60)
 nodes/pushback/node = SubResource("AnimationNodeOneShot_ons1q")
 nodes/pushback/position = Vector2(-60, 60)
-node_connections = [&"knockback", 0, &"pushback", &"knockback", 1, &"Animation 2", &"output", 0, &"knockback", &"pushback", 0, &"AnimationNodeStateMachine", &"pushback", 1, &"Animation"]
+node_connections = [&"output", 0, &"knockback", &"knockback", 0, &"pushback", &"knockback", 1, &"Animation 2", &"pushback", 0, &"AnimationNodeStateMachine", &"pushback", 1, &"Animation"]
 
 [sub_resource type="Animation" id="Animation_4pbxa"]
 length = 0.001
@@ -216,6 +216,95 @@ tracks/14/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/15/type = "value"
+tracks/15/imported = false
+tracks/15/enabled = true
+tracks/15/path = NodePath("../AnimationTree:parameters/AnimationNodeStateMachine/conditions/bench_sit")
+tracks/15/interp = 1
+tracks/15/loop_wrap = true
+tracks/15/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/16/type = "value"
+tracks/16/imported = false
+tracks/16/enabled = true
+tracks/16/path = NodePath("..:nonDirectionalLowerVelocityClamp")
+tracks/16/interp = 1
+tracks/16/loop_wrap = true
+tracks/16/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-1000000, -1000)]
+}
+tracks/17/type = "value"
+tracks/17/imported = false
+tracks/17/enabled = true
+tracks/17/path = NodePath("..:nonDirectionalHigherVelocityClamp")
+tracks/17/interp = 1
+tracks/17/loop_wrap = true
+tracks/17/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1000000, 1000)]
+}
+
+[sub_resource type="Animation" id="Animation_2s815"]
+resource_name = "death"
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(1),
+"transitions": PackedFloat32Array(1),
+"values": [{
+"args": [],
+"method": &"RespawnAtLastBench"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:disableHorisontalControlls")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("..:disableJumping")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:disableNail")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
 }
 
 [sub_resource type="Animation" id="Animation_ews8v"]
@@ -511,6 +600,78 @@ tracks/0/keys = {
 "values": [Vector2i(0, 2), Vector2i(1, 2), Vector2i(2, 2), Vector2i(3, 2)]
 }
 
+[sub_resource type="Animation" id="Animation_8u1ju"]
+resource_name = "sit_on_bench"
+length = 2.0
+tracks/0/type = "method"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("..")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"values": [{
+"args": [],
+"method": &"SitOnLastBench"
+}, {
+"args": [-100],
+"method": &"Damage"
+}, {
+"args": [0, false],
+"method": &"Jump"
+}]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../AnimationTree:parameters/AnimationNodeStateMachine/conditions/bench_sit")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Sprite2D:frame_coords")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(0, 3)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("..:nonDirectionalLowerVelocityClamp")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("..:nonDirectionalHigherVelocityClamp")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0)]
+}
+
 [sub_resource type="Animation" id="Animation_xeb05"]
 resource_name = "take_damage"
 length = 1.3
@@ -695,12 +856,10 @@ tracks/1/keys = {
 "values": [true, false]
 }
 
-[sub_resource type="Animation" id="Animation_8u1ju"]
-resource_name = "sit_on_bench"
-
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_12ptb"]
 _data = {
 &"RESET": SubResource("Animation_4pbxa"),
+&"death": SubResource("Animation_2s815"),
 &"down_nail_swing": SubResource("Animation_ews8v"),
 &"end_attack": SubResource("Animation_i0ilm"),
 &"fall_continuous": SubResource("Animation_q5hbr"),
@@ -726,7 +885,7 @@ size = Vector2(34, 80)
 [sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_fcng2"]
 size = Vector2(4, 4)
 
-[node name="player_character" type="CharacterBody2D"]
+[node name="player_character" type="CharacterBody2D" unique_id=746270342]
 process_mode = 1
 self_modulate = Color(0.602721, 0.602721, 0.602721, 1)
 collision_layer = 8
@@ -737,13 +896,14 @@ maxHealth = 9
 currentHealth = 9
 currentSoul = 10
 
-[node name="AnimationTree" type="AnimationTree" parent="."]
+[node name="AnimationTree" type="AnimationTree" parent="." unique_id=410004449]
 process_mode = 3
 root_node = NodePath("../nail_handeler")
 tree_root = SubResource("AnimationNodeBlendTree_flf3p")
 advance_expression_base_node = NodePath("..")
 anim_player = NodePath("../character_animation_player")
 parameters/AnimationNodeStateMachine/conditions/Attacking = false
+parameters/AnimationNodeStateMachine/conditions/bench_sit = false
 parameters/knockback/active = false
 parameters/knockback/internal_active = false
 parameters/knockback/request = 0
@@ -751,51 +911,49 @@ parameters/pushback/active = false
 parameters/pushback/internal_active = false
 parameters/pushback/request = 0
 
-[node name="character_animation_player" type="AnimationPlayer" parent="."]
+[node name="character_animation_player" type="AnimationPlayer" parent="." unique_id=1458697136]
 process_mode = 3
 active = false
 root_node = NodePath("../nail_handeler")
-libraries = {
-&"": SubResource("AnimationLibrary_12ptb")
-}
+libraries/ = SubResource("AnimationLibrary_12ptb")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=824124895]
 position = Vector2(-15, -52.5)
 scale = Vector2(3.5, 3.5)
 texture = ExtResource("3_ons1q")
 hframes = 10
 vframes = 6
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=936054938]
 position = Vector2(0, -40)
 limit_bottom = 650
 limit_smoothed = true
 position_smoothing_enabled = true
 position_smoothing_speed = 8.0
 
-[node name="PlayerCollision" type="CollisionShape2D" parent="."]
+[node name="PlayerCollision" type="CollisionShape2D" parent="." unique_id=876007582]
 position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_oigcr")
 
-[node name="PlayerHitbox" type="Area2D" parent="."]
+[node name="PlayerHitbox" type="Area2D" parent="." unique_id=1650530390]
 collision_layer = 0
 collision_mask = 20
 
-[node name="PlayerCollision" type="CollisionShape2D" parent="PlayerHitbox"]
+[node name="PlayerCollision" type="CollisionShape2D" parent="PlayerHitbox" unique_id=1961430660]
 position = Vector2(0, -40)
 shape = SubResource("RectangleShape2D_oigcr")
 
-[node name="nail_handeler" type="Node2D" parent="."]
+[node name="nail_handeler" type="Node2D" parent="." unique_id=1060556563]
 position = Vector2(1, -40)
 script = ExtResource("2_cmdk4")
 
-[node name="side_nail_sprite" type="Sprite2D" parent="nail_handeler"]
+[node name="side_nail_sprite" type="Sprite2D" parent="nail_handeler" unique_id=1736677914]
 position = Vector2(35, -20)
 scale = Vector2(3.5, 3.5)
 texture = ExtResource("5_pb3n0")
 hframes = 5
 
-[node name="side_nail_sprite2" type="Sprite2D" parent="nail_handeler"]
+[node name="side_nail_sprite2" type="Sprite2D" parent="nail_handeler" unique_id=454258629]
 visible = false
 position = Vector2(35, -20)
 scale = Vector2(3.5, 3.5)
@@ -803,40 +961,40 @@ texture = ExtResource("5_pb3n0")
 hframes = 5
 frame = 1
 
-[node name="down_nail_sprite" type="Sprite2D" parent="nail_handeler"]
+[node name="down_nail_sprite" type="Sprite2D" parent="nail_handeler" unique_id=1195376048]
 visible = false
 position = Vector2(-16.5, 89)
 scale = Vector2(40.75, 42)
 texture = SubResource("PlaceholderTexture2D_fcng2")
 
-[node name="up_nail_sprite" type="Sprite2D" parent="nail_handeler"]
+[node name="up_nail_sprite" type="Sprite2D" parent="nail_handeler" unique_id=38932979]
 visible = false
 position = Vector2(-18, -109)
 scale = Vector2(42, 42)
 texture = SubResource("PlaceholderTexture2D_fcng2")
 
-[node name="nail_area" type="Area2D" parent="nail_handeler"]
+[node name="nail_area" type="Area2D" parent="nail_handeler" unique_id=1934949671]
 scale = Vector2(2, 2)
 collision_layer = 0
 collision_mask = 7
 
-[node name="forward_nail" type="CollisionPolygon2D" parent="nail_handeler/nail_area"]
+[node name="forward_nail" type="CollisionPolygon2D" parent="nail_handeler/nail_area" unique_id=937020452]
 position = Vector2(24, -16)
 polygon = PackedVector2Array(-14, 36, -17, -32, 15, -28, 50, -14, 58, 11, 43, 30)
 disabled = true
 
-[node name="down_nail" type="CollisionPolygon2D" parent="nail_handeler/nail_area"]
+[node name="down_nail" type="CollisionPolygon2D" parent="nail_handeler/nail_area" unique_id=2075247476]
 position = Vector2(4, -1)
 polygon = PackedVector2Array(-57, 2, 33, 1, 24, 55, 2, 90, -34, 89, -53, 60)
 disabled = true
 
-[node name="up_nail" type="CollisionPolygon2D" parent="nail_handeler/nail_area"]
+[node name="up_nail" type="CollisionPolygon2D" parent="nail_handeler/nail_area" unique_id=352041572]
 position = Vector2(4, -9)
 polygon = PackedVector2Array(-57, -2, 33, -1, 24, -55, 2, -90, -34, -89, -53, -60)
 disabled = true
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=855277076]
 
-[node name="gui" parent="CanvasLayer" instance=ExtResource("7_ajo0r")]
+[node name="gui" parent="CanvasLayer" unique_id=1013726199 instance=ExtResource("7_ajo0r")]
 offset_top = 1.0
 offset_bottom = 1.0
