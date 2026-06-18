@@ -1,0 +1,81 @@
+[gd_scene format=3 uid="uid://de3yt6fo1eaor"]
+
+[ext_resource type="PackedScene" uid="uid://c2c04105shnu4" path="res://Scenes/crawlid.tscn" id="1_vhlj4"]
+[ext_resource type="PackedScene" uid="uid://bjqnnnf02jpim" path="res://Scenes/bench.tscn" id="2_e2bsk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhlj4"]
+size = Vector2(2267, 190)
+
+[sub_resource type="PlaceholderTexture2D" id="PlaceholderTexture2D_vhlj4"]
+size = Vector2(4, 4)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e2bsk"]
+size = Vector2(115, 1186.5)
+
+[node name="the_box" type="Node2D" unique_id=47427890]
+
+[node name="StaticBody2D" type="StaticBody2D" parent="." unique_id=122294519]
+position = Vector2(0, 57)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D" unique_id=1088193311]
+position = Vector2(1.5, 635)
+shape = SubResource("RectangleShape2D_vhlj4")
+
+[node name="mask" type="Sprite2D" parent="StaticBody2D/CollisionShape2D" unique_id=1219088609]
+position = Vector2(1.4997559, 1.3749723)
+scale = Vector2(599.25, 47.687496)
+texture = SubResource("PlaceholderTexture2D_vhlj4")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="StaticBody2D" unique_id=970193798]
+position = Vector2(3, -620)
+shape = SubResource("RectangleShape2D_vhlj4")
+
+[node name="mask" type="Sprite2D" parent="StaticBody2D/CollisionShape2D2" unique_id=188074925]
+position = Vector2(12.5, 0.25)
+scale = Vector2(599.25, 51.37498)
+texture = SubResource("PlaceholderTexture2D_vhlj4")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="StaticBody2D" unique_id=31852912]
+position = Vector2(-1121.5, -5.75)
+shape = SubResource("RectangleShape2D_e2bsk")
+
+[node name="mask" type="Sprite2D" parent="StaticBody2D/CollisionShape2D3" unique_id=1462509102]
+position = Vector2(-6.999939, 11.25)
+scale = Vector2(33.74998, 362.75)
+texture = SubResource("PlaceholderTexture2D_vhlj4")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="StaticBody2D" unique_id=661590021]
+position = Vector2(1143, -2)
+shape = SubResource("RectangleShape2D_e2bsk")
+
+[node name="mask" type="Sprite2D" parent="StaticBody2D/CollisionShape2D4" unique_id=1928318458]
+position = Vector2(15.000061, 11)
+scale = Vector2(33.74998, 362.75)
+texture = SubResource("PlaceholderTexture2D_vhlj4")
+
+[node name="Crawlid" parent="." unique_id=917998282 instance=ExtResource("1_vhlj4")]
+position = Vector2(361, 205)
+scale = Vector2(3, 3)
+speed = 200
+
+[node name="Crawlid2" parent="." unique_id=1309334040 instance=ExtResource("1_vhlj4")]
+position = Vector2(964, 427)
+
+[node name="Crawlid3" parent="." unique_id=355989510 instance=ExtResource("1_vhlj4")]
+position = Vector2(-990, 525)
+scale = Vector2(0.9963434, 1)
+
+[node name="Crawlid4" parent="." unique_id=400686707 instance=ExtResource("1_vhlj4")]
+position = Vector2(-97.00006, 468.99997)
+scale = Vector2(0.9927001, 1)
+
+[node name="Crawlid5" parent="." unique_id=72242869 instance=ExtResource("1_vhlj4")]
+position = Vector2(-761.99976, -89)
+scale = Vector2(0.99452007, 1)
+
+[node name="Crawlid6" parent="." unique_id=310946277 instance=ExtResource("1_vhlj4")]
+position = Vector2(472.00012, 543.99994)
+scale = Vector2(0.99452007, 1)
+
+[node name="bench" parent="." unique_id=1337686057 instance=ExtResource("2_e2bsk")]
+position = Vector2(-423, 558.99994)

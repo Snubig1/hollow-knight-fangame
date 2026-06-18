@@ -3,7 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using static ExtraFunctions;
-using static Godot.OpenXRCompositionLayer;
 
 /*
  for collision masks
@@ -13,20 +12,22 @@ using static Godot.OpenXRCompositionLayer;
    4 is the player
    5 is a bench
 */
+// you take damage if your HURTbox touches an enemy HITbox
+ 
 public partial class PlayerCharacter : CharacterBody2D, IDamageable
 {
     [ExportGroup("Stats")]
+    [Export] public int knockbackStrength = 5;
     [Export] public int nailDamage = 5;
     [Export] public int speed = 300;
     [Export] public int jumpStrength = 750;
-    
-
     [Export] public int maxHealth = 5;
     [Export] public int currentHealth = 3;
     [Export] public int currentSoul = 3;
 
-    Vector2 preVelocity = new Vector2(0, 0);
-    Vector2 absolutePreVelocity;
+    [Export] public double focusTime = 0.9;
+
+
     [ExportGroup("Forced Movement")]
     [Export] bool disableHorisontalControlls = false;
     [Export] bool disableJumping = false;
@@ -35,80 +36,170 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
     [Export] Vector2 nonDirectionalPushVelocity = new Vector2(0,0);
     [Export] Vector2 nonDirectionalLowerVelocityClamp = new Vector2(-1000000, -1000);
     [Export] Vector2 nonDirectionalHigherVelocityClamp = new Vector2(1000000, 1000);
+    Vector2 preVelocity = new Vector2(0, 0);
+    Vector2 absolutePreVelocity;
 
     [ExportGroup("Tecnical")]
-    Vector2 inputDirection = new Vector2(0, 0);
     [Export] public Direction directionToBe = Direction.Forward;
-
     [Export] bool altAttackAnim;
-
+    Vector2 inputDirection = new Vector2(0, 0);
+    int hInputAxis = 0;
     bool cuttableJumping = false;
     Direction playerDirection = Direction.Forward;
     bool running = false;
     double coyote = .1;
+    double focusStartUp = 0.25;
+    double focusProgress = 0;
+    int soulAfterFocus = 99;
     bool hasTakenDamageInFrame = false;
-
     private Bench lastBench;
-    private string lastSavedScene;
+
+    //memory
+    private Vector2 lastSavePosition;
+    private string lastSavedLevel;
     private AnimationTree animationTree;
-    private AnimationNodeStateMachinePlayback animationStateMachine;
+    private AnimationNodeStateMachine animationStateMachine;
+    private AnimationNodeStateMachinePlayback animationStateMachineController;
     private TweenAnimationPlayer tweenPlayer;
     private Area2D hitBox;
     private Gui guiNode;
 
+    private States state = States.grounded;
+
+    enum States
+    {
+        grounded,
+        airborne,
+        focusing,
+        sitting,
+        stunned
+    }
+
     public override void _Ready()
     {
+        //onLoad assignments
         guiNode = GetNode<Gui>("CanvasLayer/gui");
         animationTree = GetNode<AnimationTree>("AnimationTree");
-        animationStateMachine = animationTree.Get("parameters/AnimationNodeStateMachine/playback").As<AnimationNodeStateMachinePlayback>();
+        animationStateMachine = (AnimationNodeStateMachine)((AnimationNodeBlendTree)animationTree.TreeRoot).GetNode("MainAnimationStateMachine");
+        animationStateMachineController = animationTree.Get("parameters/MainAnimationStateMachine/playback").As<AnimationNodeStateMachinePlayback>();
         tweenPlayer = new TweenAnimationPlayer(this);
-        hitBox = GetNode<Area2D>("PlayerHitbox");
+        hitBox = GetNode<Area2D>("PlayerHurtbox");
         preVelocity.Y = 0;
         guiNode.SetMaxHealth(maxHealth);
         guiNode.SetHealth(currentHealth);
         guiNode.SetSoul(currentSoul);
+
+        if (lastSavedLevel == null)
+        {
+            lastSavePosition = Position;
+            lastSavedLevel = GetNode("../level").GetChild(0).SceneFilePath;
+        }
+
+        //Signal registration
         hitBox.AreaShapeEntered += OnGetHit;
     }
+
 
     public override void _PhysicsProcess(double delta)
     {
         hasTakenDamageInFrame = false;
         inputDirection = Input.GetVector("left", "right", "up", "down").Normalized();
+        hInputAxis = (int)Math.Round(Input.GetAxis("left", "right"));
+        //GD.Print(animationStateMachine);
 
-        if (IsOnFloor()) coyote = .1f;
-        if (!IsOnFloor()) coyote -= delta;
+        switch (state){
+            //==============================
+            case States.grounded:
+                //groundedness and jumping
+                coyote = .1f;
+                if (preVelocity.Y > 0) preVelocity.Y = 0;
 
-        preVelocity.Y += GetGravity().Y*(float)delta;
-        preVelocity.Y = Math.Clamp(preVelocity.Y,-1000, 1000);
-        if (IsOnFloor() && preVelocity.Y > 0) preVelocity.Y = 0;
-        if (IsOnCeiling()) preVelocity.Y = 10;
+                if (Input.IsActionJustPressed("up")){
+                    interact();
+                }
 
-        if (cuttableJumping && preVelocity.Y >= 0) cuttableJumping = false;
+                if (!disableJumping && coyote > 0 && Input.IsActionJustPressed("jump"))
+                {
+                    animationStateMachineController.Travel("jump");
+                }
 
-        if (Input.IsActionJustPressed("up") && IsOnFloor())
-        {
-            interact();
+                //moving
+                preVelocity.X = (hInputAxis * speed * 50);
+
+                if (hInputAxis != 0)
+                {
+                    directionToBe = (Direction)Math.Sign(hInputAxis);
+                    running = true;
+                }
+                else running = false;
+
+                //state control
+                if (Input.IsActionPressed("focus")) {
+                    focusStartUp -= delta;
+                    if (focusStartUp <= 0) {
+                        soulAfterFocus = currentSoul - 33;
+                        if (soulAfterFocus >= 0) {
+                            state = States.focusing;
+                            focusStartUp = 0.25;
+                            focusProgress = 0;
+                            preVelocity.X = 0;
+                            running = false;
+                        }
+                        else focusStartUp = 0.25;
+                    }
+                }
+                else focusStartUp = 0.25;
+
+                if (!IsOnFloor()) state = States.airborne;
+                break;
+
+            //==============================
+            case States.airborne:
+                //falling
+                coyote -= delta;
+                preVelocity.Y += GetGravity().Y * (float)delta;
+                preVelocity.Y = Math.Clamp(preVelocity.Y, -1000, 1000);
+                if (IsOnCeiling()) preVelocity.Y = 10;
+                if (cuttableJumping && preVelocity.Y >= 0) cuttableJumping = false;
+                if (Input.IsActionJustReleased("jump") && cuttableJumping) preVelocity.Y = 10;
+
+
+                //moving
+                preVelocity.X = (hInputAxis * speed * 50);
+                if (hInputAxis != 0)
+                {
+                    directionToBe = (Direction)Math.Sign(hInputAxis);
+                }
+
+
+                //state control
+                if (IsOnFloor()) state = States.grounded;
+                break;
+
+            //==============================
+            case States.focusing:
+
+                focusProgress += delta;
+
+                if (focusProgress >= focusTime) 
+                {
+                    focusProgress = 0;
+                    ChangeSoul(-33);
+                    soulAfterFocus = currentSoul - 33;
+                    Heal(1);
+                }
+
+
+                //state control
+                if (soulAfterFocus < 0 || !Input.IsActionPressed("focus"))
+                {
+                    state = States.grounded;
+
+                }
+                if (!IsOnFloor()) state = States.airborne;
+                break;
         }
-
-        if (!disableJumping && Input.IsActionJustPressed("jump") && coyote > 0) 
-        {
-            animationStateMachine.Travel("jump");
-            //Jump(jumpStrength,true);
-        }
-
-        if (Input.IsActionJustReleased("jump") && cuttableJumping) preVelocity.Y = 10;
-
-        preVelocity.X = (float)(Input.GetAxis("left","right") * speed * 50);
-        if (disableHorisontalControlls) preVelocity.X = 0;
-
-
         
-
-        if (Input.GetAxis("left", "right")!= 0)
-        {
-            directionToBe = (Direction)Math.Sign(Input.GetAxis("left", "right"));
-            running = true;
-        }else running = false;
 
         absolutePreVelocity = (
             preVelocity + 
@@ -121,41 +212,53 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
         MoveAndSlide();
     }
 
-    public void Damage(int damage)
+    public void Damage(int pDamage)
     {
-        currentHealth = Math.Clamp(currentHealth - damage, 0, maxHealth);
+        currentHealth = Math.Clamp(currentHealth - pDamage, 0, maxHealth);
         guiNode.SetHealth(currentHealth);
         if (currentHealth == 0)
         {
             Die();
         }
     }
-    public void ChangeSoul(int soul)
+    public void Heal(int pHealth)
     {
-        currentSoul = Math.Clamp((int)(soul + currentSoul),0,30);
+        currentHealth = Math.Clamp(currentHealth + pHealth, 0, maxHealth);
+        guiNode.SetHealth(currentHealth);
+    }
+
+    public void ChangeSoul(int pSoul)
+    {
+
+        currentSoul = Math.Clamp((int)(pSoul + currentSoul),0,99);
         guiNode.SetSoul(currentSoul);
     }
 
-    public void OnGetHit(Rid area_rid, Area2D area, long body_shape_index, long local_shape_index)
+    public void OnGetHit(Rid pAreaRid, Area2D pArea, long pBodyShapeIndex, long pLocalShapeIndex)
     {
         if (hasTakenDamageInFrame) return;
-        Node hitByNode = GetNodeOfAreaShape(area, (int)body_shape_index);
+        Node hitByNode = GetNodeOfAreaShape(pArea, (int)pBodyShapeIndex);
         if (hitByNode.IsInGroup("damageing")) 
         {
             Damage((int)hitByNode.GetMeta("damage", 1));
             hasTakenDamageInFrame = true;
         }
-        if (!(currentHealth <= 0) && hitByNode.IsInGroup("knockback_applying")) animationTree.Set("parameters/knockback/request", (int)AnimationNodeOneShot.OneShotRequest.Fire);
+        if (!(currentHealth <= 0) && hitByNode.IsInGroup("knockback_applying")) 
+        {
+            directionToBe = (Direction)Math.Sign((hitByNode.GetParent<Area2D>().GlobalPosition - GlobalPosition).X);
+            Turn();
+            animationTree.Set("parameters/knockback/request", (int)AnimationNodeOneShot.OneShotRequest.Fire); 
+        }
     }
-    public void Die(bool dream = false)
+    public void Die(bool pDream = false)
     {
-        animationStateMachine.Travel("death");
+        animationStateMachineController.Travel("death");
     }
 
-    public void Turn(Direction direct)
+    public void Turn(Direction pDirection)
     {
-        Transform = Transform with { X = new Vector2((int)direct, 0f) };
-        playerDirection = direct;
+        Transform = Transform with { X = new Vector2((int)pDirection, 0f) };
+        playerDirection = pDirection;
     }
 
     public void Turn()
@@ -170,16 +273,16 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
         Backward = -1,
     }
 
-    public void SetPaused(bool paused)
+    public void SetPaused(bool pPaused)
     {
-        GetTree().Paused = paused;
+        GetTree().Paused = pPaused;
     }
 
-    public void Jump(int streangth, bool cuttable)
+    public void Jump(int pStreangth, bool pCuttable)
     {
         coyote = 0;
-        preVelocity.Y = -streangth;
-        cuttableJumping = cuttable;
+        preVelocity.Y = -pStreangth;
+        cuttableJumping = pCuttable;
     }
     public void Jump()
     {
@@ -187,27 +290,33 @@ public partial class PlayerCharacter : CharacterBody2D, IDamageable
         Jump(jumpStrength,true);
     }
 
-    public void SitOnLastBench()
+    public void SitOnLastBench(float pTime)
     {
-        tweenPlayer.SitOnBench(lastBench);
+        tweenPlayer.SitOnBench(lastBench, pTime);
     }
 
     public void RespawnAtLastBench()
     {
-        GD.Print(lastSavedScene);
+        GetNode("../level").GetChild(0).QueueFree();
+        Position = lastSavePosition;
+        Heal(100);
+        PackedScene levelToBe = GD.Load<PackedScene>(lastSavedLevel);
 
-        GetTree().ChangeSceneToFile(lastSavedScene);
+        GetNode("../level").AddChild(levelToBe.Instantiate());
+
     }
 
     private bool interact()
     {
         Area2D interactable = hitBox.GetOverlappingAreas().ToList().Find(area => area.IsInGroup("interactable"));
+
         if (interactable == null) return false;
-        if (interactable.GetParent().Name == "bench")
+        if (interactable.GetParent() is Bench)
         {
             lastBench = interactable.GetParent<Bench>();
-            lastSavedScene = GetTree().CurrentScene.SceneFilePath;
-            animationTree.Set("parameters/AnimationNodeStateMachine/conditions/bench_sit", true);
+            lastSavePosition = interactable.GetParent<Bench>().Position;
+            lastSavedLevel = GetNode("../level").GetChild(0).SceneFilePath;
+            animationTree.Set("parameters/MainAnimationStateMachine/conditions/bench_sit", true);
         }
         return true;
     }

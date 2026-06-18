@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://bjqnnnf02jpim"]
 
-[ext_resource type="Script" uid="uid://dk67bp1iyjao8" path="res://Scenes/Bench.cs" id="1_rgxpg"]
+[ext_resource type="Script" uid="uid://dk67bp1iyjao8" path="res://Scripts/Bench.cs" id="1_rgxpg"]
 [ext_resource type="Texture2D" uid="uid://bvdu5lar1wdco" path="res://Sprites/old/Town_bench.png" id="2_e6kot"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_erv1k"]

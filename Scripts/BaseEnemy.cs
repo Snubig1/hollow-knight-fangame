@@ -14,9 +14,9 @@ public partial class BaseEnemy : CharacterBody2D, IDamageable
         ProcessMode = ProcessModeEnum.Disabled;
     }
 
-    public void Damage(int damageAmount)
+    public void Damage(int pDamage)
     {
-        CurrentHealth -= damageAmount;
+        CurrentHealth -= pDamage;
         if (CurrentHealth <= 0) Death();
     }
 }

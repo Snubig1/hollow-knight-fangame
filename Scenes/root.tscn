@@ -1,12 +1,16 @@
 [gd_scene format=3 uid="uid://itp257xnsumt"]
 
 [ext_resource type="PackedScene" uid="uid://1fcut7yuncwa" path="res://Scenes/player_character.tscn" id="1_osyij"]
-[ext_resource type="PackedScene" uid="uid://dg7t6rh5p77ar" path="res://Scenes/testing_area.tscn" id="2_8pvmw"]
+[ext_resource type="PackedScene" uid="uid://cp10msrsdi3qf" path="res://Scenes/levels/mossy_arena.tscn" id="2_8pvmw"]
 
 [node name="root" type="Node" unique_id=765647083]
 
 [node name="player_character" parent="." unique_id=647280691 instance=ExtResource("1_osyij")]
-position = Vector2(108, 167)
-nailDamage = 1
+position = Vector2(1677, -255)
+maxHealth = 5
+currentHealth = 5
+currentSoul = 22
 
-[node name="level" parent="." unique_id=47427890 instance=ExtResource("2_8pvmw")]
+[node name="level" type="Node" parent="." unique_id=1722759647]
+
+[node name="mossy_arena" parent="level" unique_id=1045266728 instance=ExtResource("2_8pvmw")]

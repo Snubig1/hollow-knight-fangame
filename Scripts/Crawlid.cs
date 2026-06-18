@@ -12,7 +12,7 @@ public partial class Crawlid : BaseEnemy
     public override void _Ready()
     {
         //Transform = Transform with { X = new Vector2(direction * Transform.X.X, 0) };
-        GetNode<Area2D>("HitArea").BodyEntered += DealDamage;
+        //GetNode<Area2D>("HitArea").BodyEntered += DealDamage;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -30,13 +30,13 @@ public partial class Crawlid : BaseEnemy
         MoveAndSlide();
 
     }
-
-    public void DealDamage(Node2D target)
+    /*
+    public void DealDamage(Node2D pTarget)
     {
-        PlayerCharacter target2 = (PlayerCharacter)target;
-        if (target.IsInGroup("enemyDamageable"))
+        PlayerCharacter target2 = (PlayerCharacter)pTarget;
+        if (pTarget.IsInGroup("enemyDamageable"))
         {
             target2.Damage(1);
         }
-    }
+    }*/
 }

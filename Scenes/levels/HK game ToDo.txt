@@ -1,0 +1,14 @@
+spells
+focus polish
+damage, and death visuals
+update health bar system
+more textures
+charms?
+main menu
+
+
+jump animation
+fix damage knockback direction
+bench
+Death
+focus

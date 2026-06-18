@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://cp10msrsdi3qf"]
+
+[ext_resource type="PackedScene" uid="uid://uwub7comqvma" path="res://Scenes/messy_moss_charger.tscn" id="1_k4rg7"]
+[ext_resource type="PackedScene" uid="uid://c2c04105shnu4" path="res://Scenes/crawlid.tscn" id="2_num1n"]
+[ext_resource type="PackedScene" uid="uid://bjqnnnf02jpim" path="res://Scenes/bench.tscn" id="3_yhslb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cvnd3"]
+size = Vector2(3041, 126)
+
+[sub_resource type="Gradient" id="Gradient_k4rg7"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0.084848486, 0.58181816)
+colors = PackedColorArray(0.105600014, 0.48, 0.33648005, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_num1n"]
+gradient = SubResource("Gradient_k4rg7")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_k4rg7"]
+size = Vector2(517, 656.5)
+
+[sub_resource type="Gradient" id="Gradient_num1n"]
+offsets = PackedFloat32Array(0, 0.2542373)
+colors = PackedColorArray(0.043137256, 0.19607843, 0.13725491, 1, 0.33660772, 0.33660758, 0.3366076, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_yhslb"]
+gradient = SubResource("Gradient_num1n")
+
+[sub_resource type="Gradient" id="Gradient_cvnd3"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(0.078431375, 0.10980392, 0.09803922, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_k4rg7"]
+gradient = SubResource("Gradient_cvnd3")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_yhslb"]
+size = Vector2(60.20001, 0.37609035)
+
+[node name="mossy_arena" type="Node2D" unique_id=1045266728]
+
+[node name="landscape" type="StaticBody2D" parent="." unique_id=630604519]
+
+[node name="floor_collision" type="CollisionShape2D" parent="landscape" unique_id=1988168439]
+position = Vector2(437.5, 563)
+shape = SubResource("RectangleShape2D_cvnd3")
+metadata/_edit_lock_ = true
+
+[node name="floor" type="Sprite2D" parent="landscape" unique_id=933652413]
+z_index = 2
+position = Vector2(452, 596)
+rotation = 1.5707964
+scale = Vector2(0.75, 4000)
+texture = SubResource("GradientTexture1D_num1n")
+
+[node name="left_wall_collision" type="CollisionShape2D" parent="landscape" unique_id=1098406975]
+position = Vector2(-264.56116, 221.31537)
+shape = SubResource("RectangleShape2D_k4rg7")
+metadata/_edit_lock_ = true
+
+[node name="right_wall_collision" type="CollisionShape2D" parent="landscape" unique_id=1556646929]
+position = Vector2(1768.5952, 222.47931)
+shape = SubResource("RectangleShape2D_k4rg7")
+metadata/_edit_lock_ = true
+
+[node name="right_wall" type="Sprite2D" parent="landscape" unique_id=1956714546]
+position = Vector2(1945.4711, 244.72932)
+rotation = 1.5707964
+scale = Vector2(2.6420455, 876.9421)
+texture = SubResource("GradientTexture1D_yhslb")
+metadata/_edit_lock_ = true
+
+[node name="left_wall" type="Sprite2D" parent="landscape" unique_id=311173229]
+position = Vector2(-549.7331, 167.45624)
+rotation = 1.5707964
+scale = Vector2(3.4957516, 1098.5338)
+texture = SubResource("GradientTexture1D_yhslb")
+metadata/_edit_lock_ = true
+
+[node name="right_wall_collision2" type="CollisionShape2D" parent="landscape" unique_id=1816346845]
+position = Vector2(2110.0952, -167.27069)
+shape = SubResource("RectangleShape2D_k4rg7")
+metadata/_edit_lock_ = true
+
+[node name="right_wall2" type="Sprite2D" parent="landscape" unique_id=1307084363]
+position = Vector2(2116.3584, -123.62816)
+rotation = 1.5707964
+scale = Vector2(2.7607174, 535.1672)
+texture = SubResource("GradientTexture1D_yhslb")
+metadata/_edit_lock_ = true
+
+[node name="background" type="Sprite2D" parent="." unique_id=1003067588]
+z_index = -50
+position = Vector2(440.5, -103.5)
+scale = Vector2(24.315065, 1949)
+texture = SubResource("GradientTexture1D_k4rg7")
+
+[node name="messy_moss_charger" parent="." unique_id=396854463 node_paths=PackedStringArray("vision") instance=ExtResource("1_k4rg7")]
+position = Vector2(210, 406)
+floorHeight = 500
+vision = NodePath("../vision")
+
+[node name="crawlid" parent="." unique_id=355989510 instance=ExtResource("2_num1n")]
+position = Vector2(709, 487)
+
+[node name="bench" parent="." unique_id=128238335 instance=ExtResource("3_yhslb")]
+position = Vector2(1661.0952, -135.27069)
+
+[node name="vision" type="Area2D" parent="." unique_id=644502386]
+visible = false
+position = Vector2(452.00003, 39)
+scale = Vector2(15, 1949)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="vision" unique_id=1130557945]
+position = Vector2(-5.7666683, 0.053617254)
+shape = SubResource("RectangleShape2D_yhslb")

@@ -1,6 +1,15 @@
 using Godot;
 using System;
 
+
+/*
+ for collision masks
+   1 is the ground
+   2 is enemy hurtboxes
+   3 is enemy hitboxes
+   4 is the player
+   5 is a bench
+*/
 public static class ExtraFunctions
 {
     public static Node GetNodeOfBodyShape(CollisionObject2D body, int body_shape_index)
@@ -11,15 +20,8 @@ public static class ExtraFunctions
     {
         return (Node)body.ShapeOwnerGetOwner((body).ShapeFindOwner((int)body_shape_index));
     }
-    public static Vector2 CollapseVec2Array(Vector2[] array)
-    {
-        return new Vector2(
-            array[0].X + array[1].X + array[2].X + array[3].X + array[4].X + array[5].X,
-            array[0].Y + array[1].Y + array[2].Y + array[3].Y + array[4].Y + array[5].Y
-            );
-    }
 }
-public class TweenAnimationPlayer(Node owner)
+public class TweenAnimationPlayer(Node pOwner)
 {
     private Tween _tween;
 
@@ -27,20 +29,24 @@ public class TweenAnimationPlayer(Node owner)
     {
         if (_tween != null)
             _tween.Kill();
-        _tween = owner.CreateTween();
+        _tween = pOwner.CreateTween();
     }
-    public void SitOnBench(Bench bench)
+    public void SitOnBench(Bench pBench, float pTime)
     {
         ClearAnimation();
         _tween.SetTrans(Tween.TransitionType.Linear);
-        _tween.TweenProperty(owner, "position", bench.GlobalPosition, 0.2f);
+        _tween.TweenProperty(pOwner, "position", pBench.GlobalPosition, pTime);
         
     }
-
-
 }
+
 
 interface IDamageable
 {
-    void Damage(int damage);
+    void Damage(int pDamage);
 }
+interface IKnockbackable
+{
+    void TakeKnockback(int pStrength);
+}
+

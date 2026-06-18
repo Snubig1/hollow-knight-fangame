@@ -15,20 +15,20 @@ public partial class Gui : Control
         soulMeter = GetNode<TextureProgressBar>("SoulMeter");
     }
 
-    public void SetMaxHealth(int health)
+    public void SetMaxHealth(int pHealth)
     {
-        emptyMasks.Size = new Vector2 (11*health, emptyMasks.Size.Y);
+        emptyMasks.Size = new Vector2 (11*pHealth, emptyMasks.Size.Y);
     }
-    public void SetHealth(int health)
+    public void SetHealth(int pHealth)
     {
-        fullMasks.Size = new Vector2(11 * health, fullMasks.Size.Y);
+        fullMasks.Size = new Vector2(11 * pHealth, fullMasks.Size.Y);
     }
-    public void SetSoul(int soul)
+    public void SetSoul(int pSoul)
     {
-        if (soul <= 30)
+        if (pSoul <= 99)
         {
-            soulMeter.Value = soul * 0.5 + 1;
-            if (soul >= 16) soulMeter.TintOver = new Color(0xffffffff);
+            soulMeter.Value = (pSoul/33f)*5 + 1;
+            if (pSoul >= 45) soulMeter.TintOver = new Color(0xffffffff);
             else soulMeter.TintOver = new Color(0xffffff00);
         }
     }

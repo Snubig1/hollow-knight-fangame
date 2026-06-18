@@ -1,9 +1,11 @@
-[gd_scene load_steps=13 format=3 uid="uid://b8x4l0svm5d8u"]
+[gd_scene format=3 uid="uid://b8x4l0svm5d8u"]
 
-[ext_resource type="Texture2D" uid="uid://2buhwsevif7m" path="res://Sprites/hollow_knight_health_empty.png" id="1_bm56d"]
+[ext_resource type="Texture2D" uid="uid://2buhwsevif7m" path="res://Sprites/old/hollow_knight_health_empty.png" id="1_bm56d"]
 [ext_resource type="Script" uid="uid://dntdxofkgnc64" path="res://Scripts/Gui.cs" id="1_m6o0h"]
-[ext_resource type="Texture2D" uid="uid://cpmjm84ua2t62" path="res://Sprites/hollow_knight_health_progress.png" id="2_n5m23"]
-[ext_resource type="Texture2D" uid="uid://iiglmpkxw6q2" path="res://Sprites/hollow_knight_ui_icons.png" id="3_m6o0h"]
+[ext_resource type="Texture2D" uid="uid://cpmjm84ua2t62" path="res://Sprites/old/hollow_knight_health_progress.png" id="2_n5m23"]
+[ext_resource type="Texture2D" uid="uid://br1tgxiuw33a" path="res://Sprites/hollow_knight_ui_icons.png" id="3_m6o0h"]
+[ext_resource type="Texture2D" uid="uid://b7lrhbk22lvbg" path="res://Sprites/soul_animation.png" id="5_3w84o"]
+[ext_resource type="Script" uid="uid://cetowajr17lii" path="res://addons/animatedtexturerect/animated_texture_rect.gd" id="6_xnb2j"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_m6o0h"]
 atlas = ExtResource("1_bm56d")
@@ -37,7 +39,87 @@ region = Rect2(1, 35, 17, 17)
 atlas = ExtResource("3_m6o0h")
 region = Rect2(1, 17, 17, 17)
 
-[node name="Control" type="Control"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ls8gd"]
+atlas = ExtResource("3_m6o0h")
+region = Rect2(2, 18, 15, 15)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c5g4q"]
+atlas = ExtResource("5_3w84o")
+region = Rect2(0, 0, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s7psx"]
+atlas = ExtResource("5_3w84o")
+region = Rect2(16, 0, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_705sf"]
+atlas = ExtResource("5_3w84o")
+region = Rect2(32, 0, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_603go"]
+atlas = ExtResource("5_3w84o")
+region = Rect2(48, 0, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6wv5k"]
+atlas = ExtResource("5_3w84o")
+region = Rect2(0, 24, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t4dsw"]
+atlas = ExtResource("5_3w84o")
+region = Rect2(16, 24, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3tx2u"]
+atlas = ExtResource("5_3w84o")
+region = Rect2(32, 24, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nc5vy"]
+atlas = ExtResource("5_3w84o")
+region = Rect2(48, 24, 16, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s45yd"]
+atlas = ExtResource("5_3w84o")
+region = Rect2(64, 24, 16, 24)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ls8gd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c5g4q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s7psx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_705sf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_603go")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6wv5k")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t4dsw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3tx2u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nc5vy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s45yd")
+}],
+"loop": true,
+"name": &"splash",
+"speed": 8.0
+}]
+
+[node name="Control" type="Control" unique_id=577934683]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -47,7 +129,7 @@ grow_vertical = 2
 script = ExtResource("1_m6o0h")
 metadata/_edit_lock_ = true
 
-[node name="TextureProgressBar" type="TextureProgressBar" parent="."]
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=251848082]
 visible = false
 layout_mode = 0
 offset_right = 135.0
@@ -59,7 +141,7 @@ texture_under = SubResource("AtlasTexture_m6o0h")
 texture_progress = SubResource("AtlasTexture_8kag3")
 texture_progress_offset = Vector2(26, 0)
 
-[node name="Frame" type="TextureRect" parent="."]
+[node name="Frame" type="TextureRect" parent="." unique_id=1420159099]
 layout_mode = 0
 offset_left = 6.0
 offset_top = 3.0
@@ -68,7 +150,7 @@ offset_bottom = 48.0
 texture = SubResource("AtlasTexture_3w84o")
 metadata/_edit_lock_ = true
 
-[node name="EmptyMasks" type="NinePatchRect" parent="."]
+[node name="EmptyMasks" type="NinePatchRect" parent="." unique_id=309602341]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 12.0
@@ -80,7 +162,7 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_lock_ = true
 
-[node name="FullMasks" type="NinePatchRect" parent="."]
+[node name="FullMasks" type="NinePatchRect" parent="." unique_id=1759340055]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 12.0
@@ -92,7 +174,7 @@ axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
 metadata/_edit_lock_ = true
 
-[node name="SoulMeter" type="TextureProgressBar" parent="."]
+[node name="SoulMeter" type="TextureProgressBar" parent="." unique_id=1630600612]
 layout_mode = 0
 offset_left = 12.0
 offset_top = 18.0
@@ -106,3 +188,27 @@ texture_under = SubResource("AtlasTexture_n5m23")
 texture_over = SubResource("AtlasTexture_q52sk")
 texture_progress = SubResource("AtlasTexture_gnd4w")
 metadata/_edit_lock_ = true
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=712664412]
+visible = false
+clip_children = 1
+layout_mode = 0
+offset_left = 14.999992
+offset_top = 21.0
+offset_right = 29.999992
+offset_bottom = 36.0
+scale = Vector2(3, 3)
+texture = SubResource("AtlasTexture_ls8gd")
+
+[node name="AnimatedTextureRect" type="TextureRect" parent="TextureRect" unique_id=324628996]
+layout_mode = 0
+offset_top = -2.3333333
+offset_right = 16.0
+offset_bottom = 21.666666
+texture = SubResource("AtlasTexture_c5g4q")
+stretch_mode = 1
+script = ExtResource("6_xnb2j")
+autoplay = false
+sprite_frames = SubResource("SpriteFrames_ls8gd")
+animation = "idle"
+metadata/_custom_type_script = "uid://cetowajr17lii"
